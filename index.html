@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devjyoti Bose | Portfolio & Links</title>
+    <title>Devjyoti Bose | Links</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Modern CSS Reset & Variables */
         :root {
             --bg-color: #f8f9fa;
             --text-dark: #111827;
             --text-gray: #4b5563;
             --primary-blue: #007bff;
             --card-bg: #ffffff;
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -28,173 +27,143 @@
             background-color: var(--bg-color);
             color: var(--text-dark);
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Navigation */
         nav {
+            width: 100%;
+            max-width: 800px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
-            animation: slideDown 0.8s ease-out;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
         }
-
-        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase;}
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase;}
         .logo span { color: var(--primary-blue); }
-        
         .contact-btn {
             background: var(--primary-blue);
             color: white;
-            padding: 0.8rem 1.8rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 700;
-            transition: var(--transition);
+            font-size: 0.9rem;
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            transition: var(--transition);
         }
         .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
-        /* Main Layout */
+        /* Main Container for Mobile-First Flow */
         .container {
+            width: 100%;
+            max-width: 600px; /* Keeps everything tight and readable */
+            padding: 0 1.5rem 4rem 1.5rem;
             display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            justify-content: space-between;
-            min-height: 80vh;
-            padding: 2rem 5%;
-            gap: 3rem;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        /* Left Section: Text & Music */
-        .intro-section {
-            flex: 1 1 400px;
-            animation: fadeInRight 1s ease-out;
-        }
-        .intro-section h2 { font-size: 1.2rem; color: var(--text-gray); margin-bottom: 0.2rem; font-weight: 600; }
-        .intro-section h1 { font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: -1px; }
-        
-        /* Birthday Animation Elements */
+        /* 1. Header Section */
+        .intro-section { width: 100%; margin-bottom: 1rem; }
+        .intro-section h2 { font-size: 1.1rem; color: var(--text-gray); font-weight: 600; margin-bottom: 0.2rem; }
+        .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; }
+
         .birthday-container {
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-            min-height: 25px;
-            display: inline-block;
             background: rgba(0, 123, 255, 0.1);
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
             transition: var(--transition);
         }
         .birthday-pop {
-            animation: popInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             background: var(--primary-blue);
             color: white;
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.35);
+            transform: scale(1.05);
         }
 
-        /* Segmented Bio */
-        .bio-segments {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-bottom: 2.5rem;
-        }
-        .bio-segment {
-            background: var(--card-bg);
-            padding: 1rem 1.2rem;
-            border-left: 4px solid var(--primary-blue);
-            border-radius: 4px 12px 12px 4px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: var(--text-gray);
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        .bio-segment:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-        }
-        .bio-segment strong { 
-            font-weight: 800; 
-            color: var(--text-dark); 
-            display: block;
-            margin-bottom: 0.2rem;
-            font-size: 1rem;
-        }
-        
-        /* Bigger Music Embed */
-        .music-embed {
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.8);
-            width: 100%;
-            max-width: 500px;
-            transition: var(--transition);
-        }
-        .music-embed:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-        }
-
-        /* Center Section: Profile Image */
+        /* 2. Profile Picture */
         .profile-section {
-            flex: 1 1 300px;
+            width: 100%;
             display: flex;
             justify-content: center;
-            position: relative;
-            animation: popIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 2rem;
         }
         .profile-circle {
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, #e9ecef 0%, transparent 70%);
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            background: #e9ecef;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         .profile-img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
+            position: relative;
             z-index: 2;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        
-        /* Floating abstract elements */
+        /* Small floating accents */
         .float-shape {
             position: absolute;
             background: white;
             border-radius: 50%;
             box-shadow: var(--shadow);
-            animation: float 6s ease-in-out infinite;
             z-index: 3;
         }
-        .shape1 { width: 50px; height: 50px; top: 5%; left: -5%; animation-delay: 0s; }
-        .shape2 { width: 30px; height: 30px; bottom: 15%; right: -5%; animation-delay: 2s; }
+        .shape1 { width: 35px; height: 35px; top: 10%; left: -5%; }
+        .shape2 { width: 20px; height: 20px; bottom: 15%; right: -2%; }
 
-        /* Right Section: Cards */
+        /* 3. Unsegmented Bio */
+        .bio-section {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            text-align: left;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .bio-section p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-gray);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        .bio-section p:last-child { margin-bottom: 0; }
+        .bio-section strong {
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        /* 4. Link Cards */
         .cards-section {
-            flex: 1 1 300px;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
         }
-        
         .card {
             background: var(--card-bg);
             padding: 1.2rem;
-            border-radius: 20px;
+            border-radius: 16px;
             box-shadow: var(--shadow);
             display: flex;
             align-items: center;
@@ -202,71 +171,55 @@
             text-decoration: none;
             color: var(--text-dark);
             transition: var(--transition);
-            opacity: 0;
-            transform: translateX(30px);
-            animation: fadeInLeft 0.8s ease-out forwards;
-            border: 1px solid rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: left;
         }
-        .card:hover {
-            transform: translateY(-5px) scale(1.03) !important;
-            box-shadow: 0 25px 50px rgba(0, 123, 255, 0.1);
+        .card:hover, .card:active {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
             border-color: rgba(0, 123, 255, 0.2);
         }
-        .card:nth-child(1) { animation-delay: 0.3s; }
-        .card:nth-child(2) { animation-delay: 0.5s; }
-        .card:nth-child(3) { animation-delay: 0.7s; }
-
         .card-icon {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             background: var(--bg-color);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             flex-shrink: 0;
         }
-
-        .card-info h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .card-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem; }
         .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
 
-        /* Keyframe Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        /* 5. Apple Music */
+        .music-embed {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 0.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        iframe { border-radius: 12px; }
+
+        /* --- Fast Scroll Animation Classes --- */
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            will-change: opacity, transform;
         }
-        @keyframes fadeInRight {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeInLeft {
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes popInScale {
-            0% { transform: scale(0.9); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+        .scroll-anim.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 1000px) {
-            .container { flex-direction: column; align-items: center; }
-            .intro-section { text-align: center; }
-            .bio-segments { text-align: left; }
-            .profile-circle { width: 300px; height: 300px; margin: 1rem 0; }
-            .cards-section { width: 100%; max-width: 500px; margin-top: 0; }
-            nav { justify-content: center; gap: 2rem; flex-wrap: wrap; }
-            .intro-section h1 { font-size: 3rem; }
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .intro-section h1 { font-size: 2.8rem; }
+            .profile-circle { width: 220px; height: 220px; }
+            .bio-section { padding: 1.2rem; }
         }
     </style>
 </head>
@@ -279,37 +232,13 @@
 
     <div class="container">
         
-        <div class="intro-section">
+        <div class="intro-section scroll-anim">
             <h2>Hello, I'm</h2>
             <h1>DEVJYOTI BOSE</h1>
-            
             <div id="bd-counter" class="birthday-container">Loading timeline...</div>
-
-            <div class="bio-segments">
-                <div class="bio-segment">
-                    <strong>Audio Arcade</strong>
-                    Founder | India's biggest Sound Library | Web Applications | Making the world a bit easier
-                </div>
-                <div class="bio-segment">
-                    <strong>Travel Diaries</strong>
-                    Born in Kolkata, India | Traveling ✈️ the world 🌍
-                </div>
-                <div class="bio-segment">
-                    <strong>Core</strong>
-                    Finance 📈 | Fitness 🏋️‍♂️ | Web Development 💻
-                </div>
-                <div class="bio-segment">
-                    <strong>Connect</strong>
-                    Meta Business partner 🤝 | Paws 🐾
-                </div>
-            </div>
-            
-            <div class="music-embed">
-                <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="380" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
-            </div>
         </div>
 
-        <div class="profile-section">
+        <div class="profile-section scroll-anim">
             <div class="profile-circle">
                 <img src="profile.jpg" alt="Devjyoti Bose" class="profile-img">
                 <div class="float-shape shape1"></div>
@@ -317,8 +246,15 @@
             </div>
         </div>
 
+        <div class="bio-section scroll-anim">
+            <p><strong>Audio Arcade:</strong> Founder | India's biggest Sound Library | Web Applications | Making the world a bit easier.</p>
+            <p><strong>Travel Diaries:</strong> Born in Kolkata, India | Traveling ✈️ the world 🌍</p>
+            <p><strong>Core Focus:</strong> Finance 📈 | Fitness 🏋️‍♂️ | Web Development 💻</p>
+            <p><strong>Connect:</strong> Meta Business partner 🤝 | Paws 🐾</p>
+        </div>
+
         <div class="cards-section">
-            <a href="https://audioarcade.shop" target="_blank" class="card">
+            <a href="https://audioarcade.shop" target="_blank" class="card scroll-anim">
                 <div class="card-icon">🎧</div>
                 <div class="card-info">
                     <h3>Audio Arcade</h3>
@@ -326,7 +262,7 @@
                 </div>
             </a>
 
-            <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="card">
+            <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="card scroll-anim">
                 <div class="card-icon">✈️</div>
                 <div class="card-info">
                     <h3>Travel Diaries</h3>
@@ -334,7 +270,7 @@
                 </div>
             </a>
 
-            <a href="#" class="card">
+            <a href="#" class="card scroll-anim">
                 <div class="card-icon">🐾</div>
                 <div class="card-info">
                     <h3>Meta Business partner</h3>
@@ -343,58 +279,55 @@
             </a>
         </div>
 
+        <div class="music-embed scroll-anim">
+            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+        </div>
+
     </div>
 
     <script>
-        // --- 3D Hover Effect for Cards ---
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.card');
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 60;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 60;
-            
-            cards.forEach(card => {
-                if(window.innerWidth > 1000) {
-                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        // --- Fast Scroll Observer ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Triggers when 15% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target); // Only animate once
                 }
             });
-        });
+        }, observerOptions);
 
-        document.querySelector('.cards-section').addEventListener('mouseleave', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-            });
+        document.querySelectorAll('.scroll-anim').forEach(el => {
+            observer.observe(el);
         });
 
         // --- Birthday Animation Logic ---
         window.addEventListener('DOMContentLoaded', () => {
             const counterElement = document.getElementById('bd-counter');
             
-            // Get current year automatically
             const startYear = new Date().getFullYear(); 
-            const endYear = 1999;
-            const duration = 5000; // 5 seconds in milliseconds
+            const endYear = 1998; // Corrected to actual birth year
+            const duration = 2000; // Sped up to 2 seconds for a snappier feel
             const totalSteps = startYear - endYear;
-            
-            // Calculate how fast to update the year
             const intervalTime = duration / totalSteps; 
             
             let currentDisplayYear = startYear;
             
-            // Start the reverse counter
             const timer = setInterval(() => {
                 currentDisplayYear--;
                 counterElement.innerText = `8th of January ${currentDisplayYear}`;
                 
-                // When we hit the target year
                 if (currentDisplayYear <= endYear) {
-                    clearInterval(timer); // Stop the loop
-                    
-                    // Trigger the Pop-up effect
+                    clearInterval(timer);
                     setTimeout(() => {
-                        counterElement.innerHTML = `🎉 8th of January 1999 - My Birthday! 🎉`;
+                        counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
                         counterElement.classList.add('birthday-pop');
-                    }, 200); // slight delay for impact
+                    }, 100);
                 }
             }, intervalTime);
         });
