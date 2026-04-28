@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+html_code = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +12,7 @@
             --text-dark: #0f172a;
             --text-gray: #475569;
             --primary-blue: #007bff;
+            --accent-gold: #f59e0b;
             --card-bg: rgba(255, 255, 255, 0.65);
             --shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -33,8 +35,10 @@
             min-height: 150vh;
         }
 
-        /* Landscape Container */
-        .landscape-container {
+        /* ============================================
+           TRAVELER SILHOUETTE ANIMATION SEQUENCE
+           ============================================ */
+        .scene-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -43,57 +47,193 @@
             z-index: -1;
             overflow: hidden;
             pointer-events: none;
-        }
-        
-        .sun {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #fef08a, #f59e0b);
-            border-radius: 50%;
-            box-shadow: 0 0 60px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 40%, #334155 70%, #0ea5e9 100%);
         }
 
-        .layer {
+        /* Stars */
+        .stars {
             position: absolute;
-            bottom: -50px;
-            width: 100vw;
-            height: auto;
-            will-change: transform;
-            transform-origin: bottom center;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 120px, #ddd, transparent),
+                radial-gradient(1px 1px at 230px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 300px 50px, #eee, transparent),
+                radial-gradient(1px 1px at 400px 150px, #fff, transparent),
+                radial-gradient(2px 2px at 500px 90px, #ddd, transparent),
+                radial-gradient(1px 1px at 600px 60px, #fff, transparent),
+                radial-gradient(2px 2px at 700px 130px, #eee, transparent),
+                radial-gradient(1px 1px at 800px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 900px 100px, #ddd, transparent),
+                radial-gradient(1px 1px at 1000px 70px, #fff, transparent),
+                radial-gradient(2px 2px at 1100px 140px, #eee, transparent),
+                radial-gradient(1px 1px at 1200px 50px, #fff, transparent);
+            background-repeat: repeat;
+            background-size: 1300px 200px;
+            opacity: 0.6;
+            animation: twinkle 4s ease-in-out infinite alternate;
         }
-        
-        .layer3 { z-index: 1; fill: #cbd5e1; opacity: 0.8; }
-        .layer2 { z-index: 2; fill: #e2e8f0; opacity: 0.9; }
-        .layer1 { z-index: 3; fill: #f8f9fa; }
 
-        /* Traveler Silhouette Animation */
-        .traveler {
+        @keyframes twinkle {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Moon/Sun */
+        .moon {
             position: absolute;
-            bottom: 180px;
-            left: -120px;
+            top: 10%;
+            right: 15%;
             width: 80px;
-            height: 120px;
-            font-size: 60px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #fefce8, #fbbf24);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Mountains Background */
+        .mountain-back {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 45%;
+            z-index: 1;
+        }
+        .mountain-back svg { width: 100%; height: 100%; }
+
+        /* Sea/Ocean */
+        .sea {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(180deg, #0ea5e9 0%, #0369a1 50%, #0c4a6e 100%);
+            z-index: 2;
+            overflow: hidden;
+        }
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2338bdf8' fill-opacity='0.3' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 50% 100%;
+            animation: waveMove 6s linear infinite;
+        }
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* The Traveler Silhouette */
+        .traveler-container {
+            position: absolute;
+            bottom: 22%;
+            left: -100px;
             z-index: 10;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
-            animation: travelerJourney 25s linear infinite;
+            animation: travelerSequence 20s ease-in-out infinite;
         }
 
-        @keyframes travelerJourney {
-            0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-            20%  { transform: translateX(25vw) translateY(-30px) rotate(-8deg); }   /* running */
-            35%  { transform: translateX(45vw) translateY(-120px) rotate(15deg); }  /* jump into sea */
-            50%  { transform: translateX(65vw) translateY(-80px) rotate(-5deg); }   /* plane catch */
-            70%  { transform: translateX(85vw) translateY(-280px) rotate(10deg); }  /* flying high */
-            85%  { transform: translateX(105vw) translateY(-100px) rotate(-25deg); } /* falling from plane */
-            100% { transform: translateX(130vw) translateY(20px) rotate(0deg); }    /* lands on mountain */
+        @keyframes travelerSequence {
+            /* Phase 1: Running (0% - 25%) */
+            0% { left: -100px; bottom: 22%; transform: rotate(0deg) scale(1); }
+            20% { left: 35%; bottom: 22%; transform: rotate(0deg) scale(1); }
+            /* Phase 2: Jump into sea (25% - 40%) */
+            25% { left: 45%; bottom: 35%; transform: rotate(-15deg) scale(1); }
+            32% { left: 55%; bottom: 5%; transform: rotate(0deg) scale(0.8); opacity: 1; }
+            35% { left: 58%; bottom: 2%; transform: rotate(0deg) scale(0.6); opacity: 0.3; }
+            /* Phase 3: Underwater / transition to plane (40% - 55%) */
+            40% { left: 60%; bottom: 8%; transform: rotate(180deg) scale(0.4); opacity: 0; }
+            45% { left: 50%; bottom: 60%; transform: rotate(0deg) scale(0.3); opacity: 0; }
+            /* Phase 4: Falls into plane (55% - 65%) */
+            55% { left: 40%; bottom: 70%; transform: rotate(0deg) scale(0.5); opacity: 1; }
+            60% { left: 35%; bottom: 65%; transform: rotate(10deg) scale(0.6); }
+            /* Phase 5: Plane flies (65% - 75%) */
+            65% { left: 30%; bottom: 68%; transform: rotate(-5deg) scale(0.6); }
+            70% { left: 55%; bottom: 72%; transform: rotate(0deg) scale(0.6); }
+            /* Phase 6: Falls from plane (75% - 85%) */
+            75% { left: 60%; bottom: 70%; transform: rotate(0deg) scale(0.6); }
+            80% { left: 65%; bottom: 45%; transform: rotate(180deg) scale(0.5); }
+            /* Phase 7: Lands on mountain (85% - 100%) */
+            85% { left: 70%; bottom: 42%; transform: rotate(0deg) scale(0.7); }
+            90% { left: 75%; bottom: 44%; transform: rotate(0deg) scale(0.8); }
+            95% { left: 85%; bottom: 45%; transform: rotate(0deg) scale(0.9); }
+            100% { left: 110%; bottom: 45%; transform: rotate(0deg) scale(1); }
         }
 
-        /* Navigation & Container styles remain the same */
+        .traveler-svg {
+            width: 60px;
+            height: 80px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        /* Plane Silhouette */
+        .plane-container {
+            position: absolute;
+            z-index: 8;
+            animation: planeSequence 20s ease-in-out infinite;
+        }
+        @keyframes planeSequence {
+            0%, 54% { left: -200px; bottom: 80%; opacity: 0; transform: scale(0.3); }
+            55% { left: 35%; bottom: 68%; opacity: 1; transform: scale(0.6) rotate(-5deg); }
+            65% { left: 30%; bottom: 68%; opacity: 1; transform: scale(0.6) rotate(0deg); }
+            70% { left: 55%; bottom: 72%; opacity: 1; transform: scale(0.6) rotate(5deg); }
+            76% { left: 62%; bottom: 75%; opacity: 1; transform: scale(0.6) rotate(10deg); }
+            82% { left: 80%; bottom: 85%; opacity: 0.8; transform: scale(0.5) rotate(15deg); }
+            90%, 100% { left: 120%; bottom: 90%; opacity: 0; transform: scale(0.4) rotate(20deg); }
+        }
+
+        /* Splash effect when jumping into sea */
+        .splash {
+            position: absolute;
+            left: 55%;
+            bottom: 22%;
+            width: 80px;
+            height: 80px;
+            z-index: 9;
+            opacity: 0;
+            animation: splashAnim 20s ease-in-out infinite;
+        }
+        @keyframes splashAnim {
+            0%, 30% { opacity: 0; transform: scale(0); }
+            32% { opacity: 1; transform: scale(1.2); }
+            36% { opacity: 0; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        /* Parachute when falling from plane */
+        .parachute {
+            position: absolute;
+            z-index: 9;
+            animation: parachuteSequence 20s ease-in-out infinite;
+        }
+        @keyframes parachuteSequence {
+            0%, 74% { left: 60%; bottom: 80%; opacity: 0; transform: scale(0.3); }
+            76% { left: 62%; bottom: 70%; opacity: 1; transform: scale(0.5) rotate(-5deg); }
+            82% { left: 66%; bottom: 50%; opacity: 1; transform: scale(0.6) rotate(5deg); }
+            86% { left: 70%; bottom: 46%; opacity: 0.8; transform: scale(0.4) rotate(0deg); }
+            90%, 100% { opacity: 0; transform: scale(0.3); }
+        }
+
+        /* Foreground Mountain */
+        .mountain-front {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 35%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Scroll-driven parallax for depth */
+        .parallax-layer {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* Navigation */
         nav {
             width: 100%;
             max-width: 800px;
@@ -104,7 +244,7 @@
             margin-bottom: 1rem;
             z-index: 10;
         }
-        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase;}
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase; color: white; }
         .logo span { color: var(--primary-blue); }
         .contact-btn {
             background: var(--primary-blue);
@@ -122,6 +262,7 @@
             box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
+        /* Main Container */
         .container {
             width: 100%;
             max-width: 600px;
@@ -133,14 +274,16 @@
             z-index: 10;
         }
 
-        .intro-section h2 { font-size: 1.1rem; color: var(--text-gray); font-weight: 600; margin-bottom: 0.2rem; }
-        .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; }
+        /* 1. Header Section */
+        .intro-section { width: 100%; margin-bottom: 1rem; }
+        .intro-section h2 { font-size: 1.1rem; color: #cbd5e1; font-weight: 600; margin-bottom: 0.2rem; }
+        .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
 
         .birthday-container {
             font-size: 1.1rem;
             font-weight: 800;
             color: var(--primary-blue);
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
             padding: 0.5rem 1rem;
             border-radius: 10px;
@@ -157,10 +300,19 @@
             border: none;
         }
 
+        /* 2. Profile Picture */
+        .profile-section {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
         .profile-circle {
             width: 250px;
             height: 250px;
             border-radius: 50%;
+            position: relative;
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -171,12 +323,16 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
+            position: relative;
+            z-index: 2;
         }
 
+        /* 3. Unsegmented Bio with Glassmorphism */
         .bio-section {
             width: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 1.8rem;
             border-radius: 20px;
             box-shadow: var(--shadow);
@@ -191,9 +347,10 @@
             margin-bottom: 0.8rem;
             font-weight: 500;
         }
+        .bio-section p:last-child { margin-bottom: 0; }
         .bio-section strong { color: var(--text-dark); font-weight: 800; }
 
-        /* Cards */
+        /* 4. Link Cards with Glassmorphism */
         .cards-section {
             width: 100%;
             display: flex;
@@ -204,6 +361,7 @@
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 1.2rem;
             border-radius: 16px;
             box-shadow: var(--shadow);
@@ -216,94 +374,216 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
             text-align: left;
         }
-        .card:hover {
+        .card:hover, .card:active {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
             border-color: rgba(0, 123, 255, 0.4);
             background: rgba(255, 255, 255, 0.9);
         }
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .card-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem; }
+        .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
 
-        /* Highlighted Audio Arcade Button */
-        .audio-arcade-card {
-            background: linear-gradient(135deg, #007bff, #00aaff);
+        /* ============================================
+           SPECIAL AUDIO ARCADE PRODUCT BUTTON
+           ============================================ */
+        .audio-arcade-cta {
+            width: 100%;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 50%, #00d4ff 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            backdrop-filter: blur(12px);
+            padding: 1.4rem 1.8rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 123, 255, 0.35), 0 0 0 1px rgba(255,255,255,0.2) inset;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
             color: white;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.4);
+            transition: var(--transition);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            text-align: left;
             position: relative;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
-        .audio-arcade-card::before {
+        .audio-arcade-cta::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
-            width: 40%;
-            height: 300%;
-            background: linear-gradient(120deg, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-25deg);
-            animation: shine 4s infinite;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
         }
-        @keyframes shine {
-            0% { transform: translateX(-150%) skewX(-25deg); }
-            20% { transform: translateX(300%) skewX(-25deg); }
-            100% { transform: translateX(300%) skewX(-25deg); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
-        .audio-arcade-card .card-icon {
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .audio-arcade-cta:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0, 123, 255, 0.5), 0 0 0 1px rgba(255,255,255,0.3) inset;
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        .audio-arcade-cta .card-icon {
             background: rgba(255,255,255,0.25);
-            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             font-size: 2rem;
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
         }
-        .audio-arcade-card h3 {
-            font-size: 1.2rem;
+        .audio-arcade-cta .card-info h3 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 0.3rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .audio-arcade-cta .card-info p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+        .audio-arcade-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #f59e0b;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            z-index: 2;
         }
 
+        /* ============================================
+           20-DAY COUNTDOWN TIMER
+           ============================================ */
+        .countdown-section {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 2rem 1.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #007bff, #00d4ff, #f59e0b, #007bff);
+            background-size: 300% 100%;
+            animation: borderGlow 3s linear infinite;
+        }
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .countdown-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+        .countdown-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1rem 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00d4ff;
+            line-height: 1;
+            display: block;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+        .countdown-unit {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+            display: block;
+        }
+        .countdown-message {
+            margin-top: 1.2rem;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        /* 5. Apple Music */
         .music-embed {
             width: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 0.8rem;
             border-radius: 20px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
+        iframe { border-radius: 12px; }
 
-        /* Countdown */
-        .countdown-section {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 1.8rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            margin-top: 2rem;
-        }
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            font-size: 1.4rem;
-            font-weight: 800;
-        }
-        .countdown-item {
-            background: rgba(255,255,255,0.8);
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
-            min-width: 70px;
-        }
-        .countdown-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-gray);
-            margin-top: 4px;
-        }
-
+        /* Fast Scroll Animation Classes */
         .scroll-anim {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: opacity, transform;
         }
         .scroll-anim.show {
             opacity: 1;
@@ -313,28 +593,131 @@
         @media (max-width: 480px) {
             .intro-section h1 { font-size: 2.8rem; }
             .profile-circle { width: 220px; height: 220px; }
-            .traveler { width: 60px; height: 90px; font-size: 45px; }
+            .bio-section { padding: 1.2rem; }
+            .countdown-number { font-size: 1.5rem; }
+            .countdown-grid { gap: 0.5rem; }
+            .audio-arcade-cta { padding: 1.2rem; }
+            .audio-arcade-cta .card-icon { width: 55px; height: 55px; font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="landscape-container">
-        <div class="sun" id="bg-sun"></div>
+    <!-- ============================================
+         TRAVELER SILHOUETTE ANIMATION SCENE
+         ============================================ -->
+    <div class="scene-container">
+        <div class="stars"></div>
+        <div class="moon"></div>
         
-        <!-- Existing mountain layers -->
-        <svg class="layer layer3" id="bg-layer3" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-        <svg class="layer layer2" id="bg-layer2" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,170.7C672,139,768,85,864,96C960,107,1056,181,1152,202.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-        <svg class="layer layer1" id="bg-layer1" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
+        <!-- Background Mountains -->
+        <div class="mountain-back parallax-layer" id="mountain-back">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path fill="#1e293b" fill-opacity="0.8" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
 
-        <!-- Traveler Silhouette -->
-        <div class="traveler" id="traveler">🏃‍♂️</div>
+        <!-- Sea / Ocean -->
+        <div class="sea">
+            <div class="wave"></div>
+            <div class="wave" style="animation-delay: -2s; opacity: 0.6; bottom: 10px;"></div>
+        </div>
+
+        <!-- Splash Effect -->
+        <div class="splash">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="5" fill="white" opacity="0.8"/>
+                <circle cx="25" cy="35" r="3" fill="white" opacity="0.6"/>
+                <circle cx="55" cy="35" r="3" fill="white" opacity="0.6"/>
+                <circle cx="40" cy="25" r="4" fill="white" opacity="0.7"/>
+                <circle cx="30" cy="50" r="2" fill="white" opacity="0.5"/>
+                <circle cx="50" cy="50" r="2" fill="white" opacity="0.5"/>
+                <path d="M20 45 Q40 20 60 45" stroke="white" stroke-width="2" fill="none" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <!-- Plane Silhouette -->
+        <div class="plane-container">
+            <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
+                <!-- Plane body -->
+                <ellipse cx="60" cy="30" rx="50" ry="12" fill="#0f172a"/>
+                <!-- Wings -->
+                <path d="M30 28 L90 28 L80 20 L40 20 Z" fill="#0f172a"/>
+                <path d="M35 32 L85 32 L75 38 L45 38 Z" fill="#0f172a"/>
+                <!-- Tail -->
+                <path d="M95 25 L110 15 L108 30 Z" fill="#0f172a"/>
+                <!-- Windows -->
+                <circle cx="45" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
+                <circle cx="55" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
+                <circle cx="65" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
+                <circle cx="75" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <!-- Parachute -->
+        <div class="parachute">
+            <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+                <!-- Parachute canopy -->
+                <path d="M5 30 Q30 5 55 30 Q30 20 5 30" fill="#0f172a"/>
+                <path d="M5 30 L15 60" stroke="#0f172a" stroke-width="2"/>
+                <path d="M55 30 L45 60" stroke="#0f172a" stroke-width="2"/>
+                <path d="M30 22 L30 60" stroke="#0f172a" stroke-width="2"/>
+                <!-- Person -->
+                <circle cx="30" cy="65" r="4" fill="#0f172a"/>
+                <line x1="30" y1="69" x2="30" y2="78" stroke="#0f172a" stroke-width="3"/>
+                <line x1="25" y1="72" x2="35" y2="72" stroke="#0f172a" stroke-width="2"/>
+                <line x1="30" y1="78" x2="25" y2="85" stroke="#0f172a" stroke-width="2"/>
+                <line x1="30" y1="78" x2="35" y2="85" stroke="#0f172a" stroke-width="2"/>
+            </svg>
+        </div>
+
+        <!-- The Traveler -->
+        <div class="traveler-container">
+            <svg class="traveler-svg" viewBox="0 0 60 80" fill="none">
+                <!-- Head -->
+                <circle cx="30" cy="12" r="8" fill="#0f172a"/>
+                <!-- Backpack -->
+                <rect x="38" y="18" width="10" height="20" rx="3" fill="#0f172a"/>
+                <!-- Body -->
+                <rect x="22" y="20" width="16" height="22" rx="4" fill="#0f172a"/>
+                <!-- Left Arm (running motion) -->
+                <line x1="22" y1="24" x2="8" y2="32" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+                    <animate attributeName="x2" values="8;14;8" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="y2" values="32;26;32" dur="0.4s" repeatCount="indefinite"/>
+                </line>
+                <!-- Right Arm -->
+                <line x1="38" y1="24" x2="52" y2="32" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+                    <animate attributeName="x2" values="52;46;52" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="y2" values="32;26;32" dur="0.4s" repeatCount="indefinite"/>
+                </line>
+                <!-- Left Leg -->
+                <line x1="26" y1="42" x2="16" y2="58" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+                    <animate attributeName="x2" values="16;22;16" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="y2" values="58;50;58" dur="0.4s" repeatCount="indefinite"/>
+                </line>
+                <!-- Right Leg -->
+                <line x1="34" y1="42" x2="44" y2="58" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+                    <animate attributeName="x2" values="44;38;44" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="y2" values="58;50;58" dur="0.4s" repeatCount="indefinite"/>
+                </line>
+                <!-- Shoes -->
+                <ellipse cx="16" cy="60" rx="5" ry="3" fill="#0f172a">
+                    <animate attributeName="cx" values="16;22;16" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="60;52;60" dur="0.4s" repeatCount="indefinite"/>
+                </ellipse>
+                <ellipse cx="44" cy="60" rx="5" ry="3" fill="#0f172a">
+                    <animate attributeName="cx" values="44;38;44" dur="0.4s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="60;52;60" dur="0.4s" repeatCount="indefinite"/>
+                </ellipse>
+            </svg>
+        </div>
+
+        <!-- Foreground Mountain -->
+        <div class="mountain-front parallax-layer" id="mountain-front">
+            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path fill="#0f172a" fill-opacity="0.95" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
     </div>
 
     <nav>
@@ -364,12 +747,15 @@
         </div>
 
         <div class="cards-section">
-            <!-- Highlighted Audio Arcade -->
-            <a href="https://audioarcade.shop" target="_blank" class="card audio-arcade-card scroll-anim">
+            <!-- ============================================
+                 SPECIAL HIGHLIGHTED AUDIO ARCADE BUTTON
+                 ============================================ -->
+            <a href="https://audioarcade.shop" target="_blank" class="audio-arcade-cta scroll-anim">
+                <span class="audio-arcade-badge">Featured</span>
                 <div class="card-icon">🎧</div>
                 <div class="card-info">
-                    <h3>Audio Arcade - Shop Now</h3>
-                    <p>India's biggest Sound Library & Web Applications<br><strong>Explore Products →</strong></p>
+                    <h3>Audio Arcade</h3>
+                    <p>Check out my products — India's biggest Sound Library, Web Apps & more.</p>
                 </div>
             </a>
 
@@ -390,105 +776,142 @@
             </a>
         </div>
 
-        <div class="music-embed scroll-anim">
-            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+        <!-- ============================================
+             20-DAY COUNTDOWN TIMER
+             ============================================ -->
+        <div class="countdown-section scroll-anim">
+            <div class="countdown-label">Something Big is Coming</div>
+            <div class="countdown-title">New Drop Incoming 🚀</div>
+            <div class="countdown-grid" id="countdown">
+                <div class="countdown-box">
+                    <span class="countdown-number" id="days">20</span>
+                    <span class="countdown-unit">Days</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-unit">Hours</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-unit">Minutes</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-unit">Seconds</span>
+                </div>
+            </div>
+            <div class="countdown-message">Stay tuned for the reveal.</div>
         </div>
 
-        <!-- New 20-Day Countdown -->
-        <div class="countdown-section scroll-anim">
-            <h3 style="margin-bottom: 1rem; color: var(--primary-blue);">Something New Drops In</h3>
-            <div class="countdown" id="countdown">
-                <div class="countdown-item"><span id="days">20</span><div class="countdown-label">DAYS</div></div>
-                <div class="countdown-item"><span id="hours">00</span><div class="countdown-label">HOURS</div></div>
-                <div class="countdown-item"><span id="minutes">00</span><div class="countdown-label">MINUTES</div></div>
-                <div class="countdown-item"><span id="seconds">00</span><div class="countdown-label">SECONDS</div></div>
-            </div>
+        <div class="music-embed scroll-anim">
+            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
         </div>
 
     </div>
 
     <script>
-        // Parallax Scroll Effect
-        const sun = document.getElementById('bg-sun');
-        const layer1 = document.getElementById('bg-layer1');
-        const layer2 = document.getElementById('bg-layer2');
-        const layer3 = document.getElementById('bg-layer3');
+        // ============================================
+        // SCROLL PARALLAX FOR MOUNTAINS
+        // ============================================
+        const mountainBack = document.getElementById('mountain-back');
+        const mountainFront = document.getElementById('mountain-front');
 
         window.addEventListener('scroll', () => {
             let value = window.scrollY;
-            sun.style.transform = `translate(-50%, ${value * 0.3}px)`;
-            layer3.style.transform = `translateY(${value * 0.15}px) scale(${1 + value * 0.0005})`;
-            layer2.style.transform = `translateY(${value * 0.1}px) scale(${1 + value * 0.001})`;
-            layer1.style.transform = `translateY(${value * 0.05}px) scale(${1 + value * 0.002})`;
+            mountainBack.style.transform = `translateY(${value * 0.05}px) scale(${1 + value * 0.0003})`;
+            mountainFront.style.transform = `translateY(${value * 0.02}px) scale(${1 + value * 0.0005})`;
         });
 
-        // Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
+        // ============================================
+        // FAST FADE/SLIDE ELEMENT ANIMATIONS
+        // ============================================
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('show');
+                    observer.unobserve(entry.target); 
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.scroll-anim').forEach(el => observer.observe(el));
-
-        // Birthday Counter
-        window.addEventListener('DOMContentLoaded', () => {
-            const counterElement = document.getElementById('bd-counter');
-            let currentYear = new Date().getFullYear();
-            const endYear = 1998;
-            const duration = 1800;
-            const steps = currentYear - endYear;
-            const interval = duration / steps;
-
-            const timer = setInterval(() => {
-                currentYear--;
-                counterElement.innerText = `8th of January ${currentYear}`;
-                if (currentYear <= endYear) {
-                    clearInterval(timer);
-                    counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
-                    counterElement.classList.add('birthday-pop');
-                }
-            }, interval);
+        document.querySelectorAll('.scroll-anim').forEach(el => {
+            observer.observe(el);
         });
 
-        // 20-Day Countdown (Change the target date as needed)
-        function startCountdown() {
-            // Set your target date here (example: 20 days from now)
-            const targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 20);   // Change this to your actual drop date
+        // ============================================
+        // BIRTHDAY ANIMATION LOGIC
+        // ============================================
+        window.addEventListener('DOMContentLoaded', () => {
+            const counterElement = document.getElementById('bd-counter');
+            const startYear = new Date().getFullYear(); 
+            const endYear = 1998; 
+            const duration = 2000; 
+            const totalSteps = startYear - endYear;
+            const intervalTime = duration / totalSteps; 
+            let currentDisplayYear = startYear;
+            
+            const timer = setInterval(() => {
+                currentDisplayYear--;
+                counterElement.innerText = `8th of January ${currentDisplayYear}`;
+                
+                if (currentDisplayYear <= endYear) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
+                        counterElement.classList.add('birthday-pop');
+                    }, 100);
+                }
+            }, intervalTime);
+        });
 
-            const countdownEl = {
-                days: document.getElementById('days'),
-                hours: document.getElementById('hours'),
-                minutes: document.getElementById('minutes'),
-                seconds: document.getElementById('seconds')
-            };
-
-            const interval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate.getTime() - now;
-
-                if (distance < 0) {
-                    clearInterval(interval);
-                    document.getElementById('countdown').innerHTML = `<strong style="color:#007bff;">It's Here! 🎉</strong>`;
+        // ============================================
+        // 20-DAY COUNTDOWN TIMER
+        // ============================================
+        (function() {
+            // Set target date to 20 days from now
+            const now = new Date();
+            const targetDate = new Date(now.getTime() + (20 * 24 * 60 * 60 * 1000));
+            
+            function updateCountdown() {
+                const current = new Date();
+                const diff = targetDate - current;
+                
+                if (diff <= 0) {
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    document.querySelector('.countdown-message').textContent = "It's here! 🎉";
                     return;
                 }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownEl.days.textContent = days.toString().padStart(2, '0');
-                countdownEl.hours.textContent = hours.toString().padStart(2, '0');
-                countdownEl.minutes.textContent = minutes.toString().padStart(2, '0');
-                countdownEl.seconds.textContent = seconds.toString().padStart(2, '0');
-            }, 1000);
-        }
-
-        startCountdown();
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        })();
     </script>
 </body>
-</html>
+</html>'''
+
+with open('/mnt/agents/output/devjyoti-bose-upgraded.html', 'w', encoding='utf-8') as f:
+    f.write(html_code)
+
+print("File saved successfully!")
+print(f"Total lines: {len(html_code.splitlines())}")
+print(f"File size: {len(html_code)} characters")
