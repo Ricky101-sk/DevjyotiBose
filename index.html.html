@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devjyoti Bose | Portfolio & Links</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Modern CSS Reset & Variables */
+        :root {
+            --bg-color: #f8f9fa;
+            --text-dark: #111827;
+            --text-gray: #4b5563;
+            --primary-blue: #007bff;
+            --card-bg: #ffffff;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase;}
+        .logo span { color: var(--primary-blue); }
+        
+        .contact-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            min-height: 80vh;
+            padding: 2rem 5%;
+            gap: 3rem;
+        }
+
+        /* Left Section: Text & Music */
+        .intro-section {
+            flex: 1 1 400px;
+            animation: fadeInRight 1s ease-out;
+        }
+        .intro-section h2 { font-size: 1.2rem; color: var(--text-gray); margin-bottom: 0.2rem; font-weight: 600; }
+        .intro-section h1 { font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: -1px; }
+        
+        /* Birthday Animation Elements */
+        .birthday-container {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            min-height: 25px;
+            display: inline-block;
+            background: rgba(0, 123, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .birthday-pop {
+            animation: popInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Segmented Bio */
+        .bio-segments {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+        .bio-segment {
+            background: var(--card-bg);
+            padding: 1rem 1.2rem;
+            border-left: 4px solid var(--primary-blue);
+            border-radius: 4px 12px 12px 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-gray);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .bio-segment:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+        .bio-segment strong { 
+            font-weight: 800; 
+            color: var(--text-dark); 
+            display: block;
+            margin-bottom: 0.2rem;
+            font-size: 1rem;
+        }
+        
+        /* Bigger Music Embed */
+        .music-embed {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.8);
+            width: 100%;
+            max-width: 500px;
+            transition: var(--transition);
+        }
+        .music-embed:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+        }
+
+        /* Center Section: Profile Image */
+        .profile-section {
+            flex: 1 1 300px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            animation: popIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .profile-circle {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, #e9ecef 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 2;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Floating abstract elements */
+        .float-shape {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            animation: float 6s ease-in-out infinite;
+            z-index: 3;
+        }
+        .shape1 { width: 50px; height: 50px; top: 5%; left: -5%; animation-delay: 0s; }
+        .shape2 { width: 30px; height: 30px; bottom: 15%; right: -5%; animation-delay: 2s; }
+
+        /* Right Section: Cards */
+        .cards-section {
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 1.2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateX(30px);
+            animation: fadeInLeft 0.8s ease-out forwards;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .card:hover {
+            transform: translateY(-5px) scale(1.03) !important;
+            box-shadow: 0 25px 50px rgba(0, 123, 255, 0.1);
+            border-color: rgba(0, 123, 255, 0.2);
+        }
+        .card:nth-child(1) { animation-delay: 0.3s; }
+        .card:nth-child(2) { animation-delay: 0.5s; }
+        .card:nth-child(3) { animation-delay: 0.7s; }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-color);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .card-info h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
+
+        /* Keyframe Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeInRight {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeInLeft {
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes popInScale {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1000px) {
+            .container { flex-direction: column; align-items: center; }
+            .intro-section { text-align: center; }
+            .bio-segments { text-align: left; }
+            .profile-circle { width: 300px; height: 300px; margin: 1rem 0; }
+            .cards-section { width: 100%; max-width: 500px; margin-top: 0; }
+            nav { justify-content: center; gap: 2rem; flex-wrap: wrap; }
+            .intro-section h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">devjyoti<span>.</span></div>
+        <a href="mailto:Devjyoti08bose@gmail.com" class="contact-btn">Let's Talk</a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="intro-section">
+            <h2>Hello, I'm</h2>
+            <h1>DEVJYOTI BOSE</h1>
+            
+            <div id="bd-counter" class="birthday-container">Loading timeline...</div>
+
+            <div class="bio-segments">
+                <div class="bio-segment">
+                    <strong>Audio Arcade</strong>
+                    Founder | India's biggest Sound Library | Web Applications | Making the world a bit easier
+                </div>
+                <div class="bio-segment">
+                    <strong>Travel Diaries</strong>
+                    Born in Kolkata, India | Traveling ✈️ the world 🌍
+                </div>
+                <div class="bio-segment">
+                    <strong>Core</strong>
+                    Finance 📈 | Fitness 🏋️‍♂️ | Web Development 💻
+                </div>
+                <div class="bio-segment">
+                    <strong>Connect</strong>
+                    Meta Business partner 🤝 | Paws 🐾
+                </div>
+            </div>
+            
+            <div class="music-embed">
+                <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="380" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-circle">
+                <img src="profile.jpg" alt="Devjyoti Bose" class="profile-img">
+                <div class="float-shape shape1"></div>
+                <div class="float-shape shape2"></div>
+            </div>
+        </div>
+
+        <div class="cards-section">
+            <a href="https://audioarcade.shop" target="_blank" class="card">
+                <div class="card-icon">🎧</div>
+                <div class="card-info">
+                    <h3>Audio Arcade</h3>
+                    <p>India's biggest Sound Library, Web Applications & Making the World a bit easier.</p>
+                </div>
+            </a>
+
+            <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="card">
+                <div class="card-icon">✈️</div>
+                <div class="card-info">
+                    <h3>Travel Diaries</h3>
+                    <p>Born in Kolkata India and travelling ✈️ the world 🌍</p>
+                </div>
+            </a>
+
+            <a href="#" class="card">
+                <div class="card-icon">🐾</div>
+                <div class="card-info">
+                    <h3>Meta Business partner</h3>
+                    <p>And Paws 🐾</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 3D Hover Effect for Cards ---
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.card');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 60;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 60;
+            
+            cards.forEach(card => {
+                if(window.innerWidth > 1000) {
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                }
+            });
+        });
+
+        document.querySelector('.cards-section').addEventListener('mouseleave', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            });
+        });
+
+        // --- Birthday Animation Logic ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const counterElement = document.getElementById('bd-counter');
+            
+            // Get current year automatically
+            const startYear = new Date().getFullYear(); 
+            const endYear = 1999;
+            const duration = 5000; // 5 seconds in milliseconds
+            const totalSteps = startYear - endYear;
+            
+            // Calculate how fast to update the year
+            const intervalTime = duration / totalSteps; 
+            
+            let currentDisplayYear = startYear;
+            
+            // Start the reverse counter
+            const timer = setInterval(() => {
+                currentDisplayYear--;
+                counterElement.innerText = `8th of January ${currentDisplayYear}`;
+                
+                // When we hit the target year
+                if (currentDisplayYear <= endYear) {
+                    clearInterval(timer); // Stop the loop
+                    
+                    // Trigger the Pop-up effect
+                    setTimeout(() => {
+                        counterElement.innerHTML = `🎉 8th of January 1999 - My Birthday! 🎉`;
+                        counterElement.classList.add('birthday-pop');
+                    }, 200); // slight delay for impact
+                }
+            }, intervalTime);
+        });
+    </script>
+</body>
+</html>
