@@ -1,917 +1,847 @@
-
-html_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devjyoti Bose | Links</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: linear-gradient(180deg, #e0f2fe 0%, #f8f9fa 100%);
-            --text-dark: #0f172a;
-            --text-gray: #475569;
-            --primary-blue: #007bff;
-            --accent-gold: #f59e0b;
-            --card-bg: rgba(255, 255, 255, 0.65);
-            --shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devjyoti Bose | Travellers Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;-webkit-tap-highlight-color:transparent;}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
+:root{
+  --c1:#FF6B35;--c2:#FFD700;--c3:#1a1a1a;
+  --accent:#FF6B35;--accent2:#FFD700;
+  --glass:rgba(255,255,255,0.08);
+  --glass-border:rgba(255,255,255,0.15);
+}
 
-        body {
-            background: var(--bg-color);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 150vh;
-        }
+html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 
-        /* ============================================
-           TRAVELER SILHOUETTE ANIMATION SEQUENCE
-           ============================================ */
-        .scene-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 40%, #334155 70%, #0ea5e9 100%);
-        }
+/* ── SLIDE TRACK ── */
+#track{
+  display:flex;
+  width:200vw;
+  height:100vh;
+  transition:transform 1.1s cubic-bezier(0.77,0,0.175,1);
+}
 
-        /* Stars */
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
-                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-                radial-gradient(2px 2px at 160px 120px, #ddd, transparent),
-                radial-gradient(1px 1px at 230px 80px, #fff, transparent),
-                radial-gradient(2px 2px at 300px 50px, #eee, transparent),
-                radial-gradient(1px 1px at 400px 150px, #fff, transparent),
-                radial-gradient(2px 2px at 500px 90px, #ddd, transparent),
-                radial-gradient(1px 1px at 600px 60px, #fff, transparent),
-                radial-gradient(2px 2px at 700px 130px, #eee, transparent),
-                radial-gradient(1px 1px at 800px 40px, #fff, transparent),
-                radial-gradient(2px 2px at 900px 100px, #ddd, transparent),
-                radial-gradient(1px 1px at 1000px 70px, #fff, transparent),
-                radial-gradient(2px 2px at 1100px 140px, #eee, transparent),
-                radial-gradient(1px 1px at 1200px 50px, #fff, transparent);
-            background-repeat: repeat;
-            background-size: 1300px 200px;
-            opacity: 0.6;
-            animation: twinkle 4s ease-in-out infinite alternate;
-        }
+.slide{
+  width:100vw;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
 
-        @keyframes twinkle {
-            0% { opacity: 0.4; }
-            100% { opacity: 0.8; }
-        }
+/* ── BG IMAGES ── */
+.bg-img{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  transform-origin:center;
+  transition:transform 8s ease-in-out;
+  z-index:0;
+}
 
-        /* Moon/Sun */
-        .moon {
-            position: absolute;
-            top: 10%;
-            right: 15%;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 30%, #fefce8, #fbbf24);
-            border-radius: 50%;
-            box-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
-        }
+.slide.active .bg-img{transform:scale(1.08);}
+.slide:not(.active) .bg-img{transform:scale(1);}
 
-        /* Mountains Background */
-        .mountain-back {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 45%;
-            z-index: 1;
-        }
-        .mountain-back svg { width: 100%; height: 100%; }
+/* Parallax via JS */
+.bg-img{will-change:transform;}
 
-        /* Sea/Ocean */
-        .sea {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 25%;
-            background: linear-gradient(180deg, #0ea5e9 0%, #0369a1 50%, #0c4a6e 100%);
-            z-index: 2;
-            overflow: hidden;
-        }
-        .wave {
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2338bdf8' fill-opacity='0.3' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-            background-size: 50% 100%;
-            animation: waveMove 6s linear infinite;
-        }
-        @keyframes waveMove {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+/* Dark overlay */
+.slide::after{
+  content:'';
+  position:absolute;inset:0;
+  z-index:1;
+  pointer-events:none;
+}
 
-        /* The Traveler Silhouette */
-        .traveler-container {
-            position: absolute;
-            bottom: 22%;
-            left: -100px;
-            z-index: 10;
-            animation: travelerSequence 20s ease-in-out infinite;
-        }
+/* Slide-specific palettes */
+.slide[data-slide="0"]{--sp1:#FF6B35;--sp2:#FFD700;--sp3:rgba(255,107,53,0.18);}
+.slide[data-slide="1"]{--sp1:#00D4FF;--sp2:#7C3AED;--sp3:rgba(0,212,255,0.15);}
 
-        @keyframes travelerSequence {
-            /* Phase 1: Running (0% - 25%) */
-            0% { left: -100px; bottom: 22%; transform: rotate(0deg) scale(1); }
-            20% { left: 35%; bottom: 22%; transform: rotate(0deg) scale(1); }
-            /* Phase 2: Jump into sea (25% - 40%) */
-            25% { left: 45%; bottom: 35%; transform: rotate(-15deg) scale(1); }
-            32% { left: 55%; bottom: 5%; transform: rotate(0deg) scale(0.8); opacity: 1; }
-            35% { left: 58%; bottom: 2%; transform: rotate(0deg) scale(0.6); opacity: 0.3; }
-            /* Phase 3: Underwater / transition to plane (40% - 55%) */
-            40% { left: 60%; bottom: 8%; transform: rotate(180deg) scale(0.4); opacity: 0; }
-            45% { left: 50%; bottom: 60%; transform: rotate(0deg) scale(0.3); opacity: 0; }
-            /* Phase 4: Falls into plane (55% - 65%) */
-            55% { left: 40%; bottom: 70%; transform: rotate(0deg) scale(0.5); opacity: 1; }
-            60% { left: 35%; bottom: 65%; transform: rotate(10deg) scale(0.6); }
-            /* Phase 5: Plane flies (65% - 75%) */
-            65% { left: 30%; bottom: 68%; transform: rotate(-5deg) scale(0.6); }
-            70% { left: 55%; bottom: 72%; transform: rotate(0deg) scale(0.6); }
-            /* Phase 6: Falls from plane (75% - 85%) */
-            75% { left: 60%; bottom: 70%; transform: rotate(0deg) scale(0.6); }
-            80% { left: 65%; bottom: 45%; transform: rotate(180deg) scale(0.5); }
-            /* Phase 7: Lands on mountain (85% - 100%) */
-            85% { left: 70%; bottom: 42%; transform: rotate(0deg) scale(0.7); }
-            90% { left: 75%; bottom: 44%; transform: rotate(0deg) scale(0.8); }
-            95% { left: 85%; bottom: 45%; transform: rotate(0deg) scale(0.9); }
-            100% { left: 110%; bottom: 45%; transform: rotate(0deg) scale(1); }
-        }
+.slide[data-slide="0"]::after{background:linear-gradient(135deg,rgba(0,0,0,0.55) 0%,rgba(255,107,53,0.18) 100%);}
+.slide[data-slide="1"]::after{background:linear-gradient(135deg,rgba(0,0,0,0.6) 0%,rgba(0,212,255,0.12) 100%);}
 
-        .traveler-svg {
-            width: 60px;
-            height: 80px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-        }
+/* ── FIXED NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.4rem 2.5rem;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.5),transparent);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.8rem;letter-spacing:3px;color:#fff;
+  text-shadow:0 0 20px rgba(255,107,53,0.5);
+}
+.nav-logo span{color:var(--accent);}
+.nav-contact{
+  font-family:'Space Mono',monospace;
+  font-size:0.7rem;letter-spacing:2px;color:#fff;
+  border:1px solid rgba(255,255,255,0.3);
+  padding:0.5rem 1.2rem;border-radius:2px;
+  text-decoration:none;
+  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.06);
+  transition:all 0.3s;
+  text-transform:uppercase;
+}
+.nav-contact:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,107,53,0.1);}
 
-        /* Plane Silhouette */
-        .plane-container {
-            position: absolute;
-            z-index: 8;
-            animation: planeSequence 20s ease-in-out infinite;
-        }
-        @keyframes planeSequence {
-            0%, 54% { left: -200px; bottom: 80%; opacity: 0; transform: scale(0.3); }
-            55% { left: 35%; bottom: 68%; opacity: 1; transform: scale(0.6) rotate(-5deg); }
-            65% { left: 30%; bottom: 68%; opacity: 1; transform: scale(0.6) rotate(0deg); }
-            70% { left: 55%; bottom: 72%; opacity: 1; transform: scale(0.6) rotate(5deg); }
-            76% { left: 62%; bottom: 75%; opacity: 1; transform: scale(0.6) rotate(10deg); }
-            82% { left: 80%; bottom: 85%; opacity: 0.8; transform: scale(0.5) rotate(15deg); }
-            90%, 100% { left: 120%; bottom: 90%; opacity: 0; transform: scale(0.4) rotate(20deg); }
-        }
+/* ── CORNER BRACKETS ── */
+.corner{position:fixed;z-index:90;width:28px;height:28px;pointer-events:none;}
+.corner-tl{top:1.2rem;left:1.2rem;border-top:2px solid rgba(255,255,255,0.5);border-left:2px solid rgba(255,255,255,0.5);}
+.corner-tr{top:1.2rem;right:1.2rem;border-top:2px solid rgba(255,255,255,0.5);border-right:2px solid rgba(255,255,255,0.5);}
+.corner-bl{bottom:3.5rem;left:1.2rem;border-bottom:2px solid rgba(255,255,255,0.5);border-left:2px solid rgba(255,255,255,0.5);}
+.corner-br{bottom:3.5rem;right:1.2rem;border-bottom:2px solid rgba(255,255,255,0.5);border-right:2px solid rgba(255,255,255,0.5);}
 
-        /* Splash effect when jumping into sea */
-        .splash {
-            position: absolute;
-            left: 55%;
-            bottom: 22%;
-            width: 80px;
-            height: 80px;
-            z-index: 9;
-            opacity: 0;
-            animation: splashAnim 20s ease-in-out infinite;
-        }
-        @keyframes splashAnim {
-            0%, 30% { opacity: 0; transform: scale(0); }
-            32% { opacity: 1; transform: scale(1.2); }
-            36% { opacity: 0; transform: scale(1.5); }
-            100% { opacity: 0; transform: scale(0); }
-        }
+/* ── BOTTOM-LEFT CONTENT ── */
+.slide-content{
+  position:absolute;
+  left:0;bottom:0;right:0;top:0;
+  z-index:10;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding:2rem 3rem 5rem 3rem;
+  pointer-events:none;
+}
 
-        /* Parachute when falling from plane */
-        .parachute {
-            position: absolute;
-            z-index: 9;
-            animation: parachuteSequence 20s ease-in-out infinite;
-        }
-        @keyframes parachuteSequence {
-            0%, 74% { left: 60%; bottom: 80%; opacity: 0; transform: scale(0.3); }
-            76% { left: 62%; bottom: 70%; opacity: 1; transform: scale(0.5) rotate(-5deg); }
-            82% { left: 66%; bottom: 50%; opacity: 1; transform: scale(0.6) rotate(5deg); }
-            86% { left: 70%; bottom: 46%; opacity: 0.8; transform: scale(0.4) rotate(0deg); }
-            90%, 100% { opacity: 0; transform: scale(0.3); }
-        }
+.left-panel{
+  max-width:580px;
+  pointer-events:all;
+}
 
-        /* Foreground Mountain */
-        .mountain-front {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 35%;
-            z-index: 5;
-            pointer-events: none;
-        }
+/* Badge */
+.badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-family:'Space Mono',monospace;
+  font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.8);
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:0.35rem 0.9rem;
+  border-radius:2px;
+  margin-bottom:1rem;
+  backdrop-filter:blur(10px);
+}
+.badge-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--sp1,#FF6B35);
+  animation:pulse 1.5s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.5);}}
 
-        /* Scroll-driven parallax for depth */
-        .parallax-layer {
-            will-change: transform;
-            transition: transform 0.1s linear;
-        }
+/* Big Headline */
+.headline-wrap{margin-bottom:0.6rem;}
+.hl-solid{
+  display:block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,9vw,8rem);
+  line-height:0.95;
+  letter-spacing:2px;
+  color:#fff;
+  transition:color 0.8s;
+}
+.hl-outline{
+  display:block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,9vw,8rem);
+  line-height:0.95;
+  letter-spacing:2px;
+  -webkit-text-stroke:2px rgba(255,255,255,0.6);
+  color:transparent;
+}
+.hl-gradient{
+  display:block;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,9vw,8rem);
+  line-height:0.95;
+  letter-spacing:2px;
+  background:linear-gradient(90deg, var(--sp1,#FF6B35), var(--sp2,#FFD700));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  transition:background 0.8s;
+}
 
-        /* Navigation */
-        nav {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            margin-bottom: 1rem;
-            z-index: 10;
-        }
-        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; text-transform: lowercase; color: white; }
-        .logo span { color: var(--primary-blue); }
-        .contact-btn {
-            background: var(--primary-blue);
-            color: white;
-            padding: 0.6rem 1.4rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-            transition: var(--transition);
-        }
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
-        }
+.subtitle{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1rem;letter-spacing:2px;
+  color:rgba(255,255,255,0.65);
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  font-weight:500;
+  max-width:420px;
+  line-height:1.6;
+}
 
-        /* Main Container */
-        .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 0 1.5rem 4rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 10;
-        }
+/* CTA Buttons */
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:#000;background:#fff;
+  border:none;padding:0.85rem 2rem;
+  text-decoration:none;
+  display:inline-block;
+  transition:all 0.3s;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);
+}
+.btn-primary:hover{background:var(--sp1,#FF6B35);color:#fff;}
 
-        /* 1. Header Section */
-        .intro-section { width: 100%; margin-bottom: 1rem; }
-        .intro-section h2 { font-size: 1.1rem; color: #cbd5e1; font-weight: 600; margin-bottom: 0.2rem; }
-        .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+.btn-secondary{
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:#fff;background:transparent;
+  border:1px solid rgba(255,255,255,0.35);
+  padding:0.85rem 2rem;
+  text-decoration:none;
+  display:inline-block;
+  transition:all 0.3s;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);
+}
+.btn-secondary:hover{border-color:var(--sp1,#FF6B35);color:var(--sp1,#FF6B35);}
 
-        .birthday-container {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--primary-blue);
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        .birthday-pop {
-            background: var(--primary-blue);
-            color: white;
-            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.35);
-            transform: scale(1.05);
-            border: none;
-        }
+/* ── AUDIO ARCADE SPECIAL BUTTON ── */
+.btn-audio-arcade{
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:#fff;
+  background:linear-gradient(90deg, #FF6B35, #FFD700);
+  border:none;
+  padding:0.85rem 2rem;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;gap:0.6rem;
+  position:relative;
+  overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);
+  transition:all 0.3s;
+  animation:aa-glow 2.5s ease-in-out infinite;
+}
+.btn-audio-arcade::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transform:translateX(-100%);
+  animation:aa-shine 2.5s ease-in-out infinite;
+}
+@keyframes aa-shine{0%{transform:translateX(-100%);}60%,100%{transform:translateX(100%);}}
+@keyframes aa-glow{0%,100%{box-shadow:0 0 12px rgba(255,107,53,0.4);}50%{box-shadow:0 0 28px rgba(255,215,0,0.6),0 0 50px rgba(255,107,53,0.3);}}
+.btn-audio-arcade:hover{transform:translateY(-2px);filter:brightness(1.15);}
+.btn-audio-arcade .aa-icon{font-size:1rem;}
+.aa-label{display:flex;flex-direction:column;line-height:1.1;}
+.aa-tag{font-size:0.5rem;letter-spacing:3px;opacity:0.8;font-family:'Rajdhani',sans-serif;font-weight:600;}
 
-        /* 2. Profile Picture */
-        .profile-section {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        .profile-circle {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            position: relative;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            padding: 8px;
-        }
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            z-index: 2;
-        }
+/* ── GLASSMORPHISM STATS CARD ── */
+.right-panel{
+  pointer-events:all;
+  flex-shrink:0;
+}
+.stats-card{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:4px;
+  padding:1.5rem;
+  min-width:200px;
+  position:relative;
+}
+.stats-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--sp1,#FF6B35),var(--sp2,#FFD700));
+}
+.stats-card-title{
+  font-family:'Space Mono',monospace;
+  font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:1.2rem;
+}
+.stat-item{margin-bottom:1.1rem;}
+.stat-item:last-child{margin-bottom:0;}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.2rem;letter-spacing:1px;
+  line-height:1;
+  color:#fff;
+  transition:color 0.8s;
+}
+.stat-num span{color:var(--sp1,#FF6B35);transition:color 0.8s;}
+.stat-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  font-weight:600;
+}
+.stat-divider{height:1px;background:rgba(255,255,255,0.07);margin:0.8rem 0;}
 
-        /* 3. Unsegmented Bio with Glassmorphism */
-        .bio-section {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1.8rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 2.5rem;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-        .bio-section p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-gray);
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-        .bio-section p:last-child { margin-bottom: 0; }
-        .bio-section strong { color: var(--text-dark); font-weight: 800; }
+/* ── SLIDE INDICATOR ── */
+.slide-indicator{
+  position:fixed;bottom:2.2rem;left:50%;transform:translateX(-50%);
+  z-index:100;
+  display:flex;align-items:center;gap:0.7rem;
+}
+.ind-dot{
+  width:24px;height:2px;
+  background:rgba(255,255,255,0.25);
+  transition:all 0.4s;border-radius:2px;
+  cursor:pointer;
+}
+.ind-dot.active{width:48px;background:#fff;}
 
-        /* 4. Link Cards with Glassmorphism */
-        .cards-section {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1.2rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            text-decoration: none;
-            color: var(--text-dark);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            text-align: left;
-        }
-        .card:hover, .card:active {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
-            border-color: rgba(0, 123, 255, 0.4);
-            background: rgba(255, 255, 255, 0.9);
-        }
-        .card-icon {
-            width: 55px;
-            height: 55px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-        .card-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem; }
-        .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
+/* ── TICKER BAR ── */
+.ticker-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:100;
+  height:2.2rem;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(10px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  overflow:hidden;
+  display:flex;align-items:center;
+}
+.ticker-inner{
+  display:flex;
+  animation:ticker 22s linear infinite;
+  white-space:nowrap;
+}
+.ticker-item{
+  font-family:'Space Mono',monospace;
+  font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  padding:0 3rem;
+  display:flex;align-items:center;gap:0.7rem;
+}
+.ticker-item .dot{color:var(--accent);font-size:0.5rem;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-        /* ============================================
-           SPECIAL AUDIO ARCADE PRODUCT BUTTON
-           ============================================ */
-        .audio-arcade-cta {
-            width: 100%;
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 50%, #00d4ff 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease infinite;
-            backdrop-filter: blur(12px);
-            padding: 1.4rem 1.8rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 123, 255, 0.35), 0 0 0 1px rgba(255,255,255,0.2) inset;
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            text-decoration: none;
-            color: white;
-            transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-        .audio-arcade-cta::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .audio-arcade-cta:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(0, 123, 255, 0.5), 0 0 0 1px rgba(255,255,255,0.3) inset;
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-        .audio-arcade-cta .card-icon {
-            background: rgba(255,255,255,0.25);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            font-size: 2rem;
-            width: 65px;
-            height: 65px;
-            border-radius: 16px;
-        }
-        .audio-arcade-cta .card-info h3 {
-            font-size: 1.25rem;
-            font-weight: 900;
-            margin-bottom: 0.3rem;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .audio-arcade-cta .card-info p {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-        }
-        .audio-arcade-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #f59e0b;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 900;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-            z-index: 2;
-        }
+/* ── COUNTDOWN SECTION ── */
+#countdown-section{
+  position:fixed;
+  bottom:2.2rem;right:2.5rem;
+  z-index:100;
+  display:none; /* shown on slide 1 */
+}
+.countdown-card{
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:4px;
+  padding:1.2rem 1.5rem;
+  text-align:center;
+}
+.cd-title{
+  font-family:'Space Mono',monospace;
+  font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:0.8rem;
+}
+.cd-digits{display:flex;gap:0.6rem;align-items:center;}
+.cd-unit{text-align:center;}
+.cd-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;color:#fff;line-height:1;
+  display:block;
+}
+.cd-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+.cd-sep{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.5rem;color:rgba(255,255,255,0.25);
+  margin-top:-6px;
+}
+.cd-tag{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--sp1,#FF6B35);
+  margin-top:0.6rem;
+  display:block;
+}
 
-        /* ============================================
-           20-DAY COUNTDOWN TIMER
-           ============================================ */
-        .countdown-section {
-            width: 100%;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 2rem 1.5rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1) inset;
-            margin-bottom: 2.5rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .countdown-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #007bff, #00d4ff, #f59e0b, #007bff);
-            background-size: 300% 100%;
-            animation: borderGlow 3s linear infinite;
-        }
-        @keyframes borderGlow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-        .countdown-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #f59e0b;
-            margin-bottom: 0.5rem;
-        }
-        .countdown-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.8rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .countdown-box {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 1rem 0.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        .countdown-number {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #00d4ff;
-            line-height: 1;
-            display: block;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-        }
-        .countdown-unit {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-            margin-top: 0.3rem;
-            display: block;
-        }
-        .countdown-message {
-            margin-top: 1.2rem;
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
+/* ── TRANSITION OVERLAY ── */
+#transition-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:#000;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.35s;
+}
+#transition-overlay.active{opacity:0.5;pointer-events:all;}
 
-        /* 5. Apple Music */
-        .music-embed {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 0.8rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-        iframe { border-radius: 12px; }
+/* ── ARROW KEYS HINT ── */
+.nav-hint{
+  position:fixed;bottom:4rem;right:2.5rem;
+  z-index:100;
+  display:flex;flex-direction:column;align-items:center;gap:0.3rem;
+}
+.nav-hint span{
+  font-family:'Space Mono',monospace;
+  font-size:0.5rem;letter-spacing:2px;
+  color:rgba(255,255,255,0.25);
+  text-transform:uppercase;
+}
+.nav-arrows{display:flex;gap:0.3rem;}
+.arr{
+  width:20px;height:20px;
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:rgba(255,255,255,0.3);
+  border-radius:2px;
+}
 
-        /* Fast Scroll Animation Classes */
-        .scroll-anim {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: opacity, transform;
-        }
-        .scroll-anim.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* ── SLIDE PROFILE SECTION (slide 1 - bio/links) ── */
+.bio-panel{
+  position:absolute;inset:0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:5rem 2rem 5rem;
+  overflow-y:auto;
+}
+.bio-inner{
+  max-width:560px;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.2rem;
+}
+.bio-profile-img{
+  width:100px;height:100px;border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(255,255,255,0.15);
+  box-shadow:0 0 30px rgba(0,212,255,0.2);
+}
+.bio-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3rem;letter-spacing:3px;color:#fff;
+  text-align:center;
+}
+.bio-tagline{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);text-align:center;
+}
+.bio-text{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;
+  padding:1.3rem 1.5rem;
+  width:100%;
+}
+.bio-text p{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.9rem;line-height:1.7;
+  color:rgba(255,255,255,0.65);
+  margin-bottom:0.5rem;font-weight:500;
+}
+.bio-text p:last-child{margin-bottom:0;}
+.bio-text strong{color:#fff;}
+.link-cards{width:100%;display:flex;flex-direction:column;gap:0.7rem;}
+.link-card{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:3px;padding:0.9rem 1.1rem;
+  text-decoration:none;color:#fff;
+  transition:all 0.3s;
+}
+.link-card:hover{
+  background:rgba(0,212,255,0.08);
+  border-color:rgba(0,212,255,0.3);
+  transform:translateX(4px);
+}
+.link-card-icon{font-size:1.3rem;flex-shrink:0;}
+.link-card-info h4{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.95rem;letter-spacing:1px;font-weight:700;
+}
+.link-card-info p{
+  font-family:'Space Mono',monospace;
+  font-size:0.6rem;color:rgba(255,255,255,0.4);letter-spacing:1px;
+  margin-top:0.15rem;
+}
 
-        @media (max-width: 480px) {
-            .intro-section h1 { font-size: 2.8rem; }
-            .profile-circle { width: 220px; height: 220px; }
-            .bio-section { padding: 1.2rem; }
-            .countdown-number { font-size: 1.5rem; }
-            .countdown-grid { gap: 0.5rem; }
-            .audio-arcade-cta { padding: 1.2rem; }
-            .audio-arcade-cta .card-icon { width: 55px; height: 55px; font-size: 1.6rem; }
-        }
-    </style>
+/* AUDIO ARCADE special link card */
+.link-card.aa-special{
+  background:linear-gradient(90deg,rgba(255,107,53,0.12),rgba(255,215,0,0.08));
+  border-color:rgba(255,107,53,0.35);
+  position:relative;overflow:hidden;
+}
+.link-card.aa-special::before{
+  content:'★ PRODUCT';
+  position:absolute;top:0.4rem;right:0.8rem;
+  font-family:'Space Mono',monospace;
+  font-size:0.45rem;letter-spacing:2px;
+  color:#FFD700;
+}
+.link-card.aa-special:hover{
+  background:linear-gradient(90deg,rgba(255,107,53,0.22),rgba(255,215,0,0.15));
+  border-color:rgba(255,107,53,0.6);
+}
+.link-card.aa-special .link-card-icon{
+  animation:aa-spin 3s ease-in-out infinite;
+}
+@keyframes aa-spin{0%,100%{transform:scale(1);}50%{transform:scale(1.15) rotate(5deg);}}
+
+/* Birthday badge */
+.bday-badge{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.8rem;letter-spacing:2px;font-weight:700;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:0.4rem 1rem;border-radius:2px;
+  color:rgba(255,255,255,0.6);
+  text-align:center;
+}
+
+/* Music embed wrap */
+.music-wrap{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;
+  overflow:hidden;padding:0.5rem;
+}
+.music-wrap iframe{border-radius:3px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .slide-content{padding:1.5rem 1.5rem 4.5rem;flex-direction:column;align-items:flex-start;gap:1.5rem;}
+  .right-panel{display:none;}
+  .hl-solid,.hl-outline,.hl-gradient{font-size:clamp(3rem,12vw,5.5rem);}
+  nav{padding:1rem 1.5rem;}
+  .nav-hint{display:none;}
+  .countdown-card{padding:0.9rem 1.1rem;}
+  #countdown-section{right:1.2rem;bottom:3rem;}
+}
+</style>
 </head>
 <body>
 
-    <!-- ============================================
-         TRAVELER SILHOUETTE ANIMATION SCENE
-         ============================================ -->
-    <div class="scene-container">
-        <div class="stars"></div>
-        <div class="moon"></div>
-        
-        <!-- Background Mountains -->
-        <div class="mountain-back parallax-layer" id="mountain-back">
-            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path fill="#1e293b" fill-opacity="0.8" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
-        </div>
+<!-- Transition overlay -->
+<div id="transition-overlay"></div>
 
-        <!-- Sea / Ocean -->
-        <div class="sea">
-            <div class="wave"></div>
-            <div class="wave" style="animation-delay: -2s; opacity: 0.6; bottom: 10px;"></div>
-        </div>
+<!-- Fixed Nav -->
+<nav>
+  <div class="nav-logo">devjyoti<span>.</span></div>
+  <a href="mailto:Devjyoti08bose@gmail.com" class="nav-contact">Let's Talk</a>
+</nav>
 
-        <!-- Splash Effect -->
-        <div class="splash">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                <circle cx="40" cy="40" r="5" fill="white" opacity="0.8"/>
-                <circle cx="25" cy="35" r="3" fill="white" opacity="0.6"/>
-                <circle cx="55" cy="35" r="3" fill="white" opacity="0.6"/>
-                <circle cx="40" cy="25" r="4" fill="white" opacity="0.7"/>
-                <circle cx="30" cy="50" r="2" fill="white" opacity="0.5"/>
-                <circle cx="50" cy="50" r="2" fill="white" opacity="0.5"/>
-                <path d="M20 45 Q40 20 60 45" stroke="white" stroke-width="2" fill="none" opacity="0.6"/>
-            </svg>
-        </div>
+<!-- Corner Brackets -->
+<div class="corner corner-tl"></div>
+<div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div>
+<div class="corner corner-br"></div>
 
-        <!-- Plane Silhouette -->
-        <div class="plane-container">
-            <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
-                <!-- Plane body -->
-                <ellipse cx="60" cy="30" rx="50" ry="12" fill="#0f172a"/>
-                <!-- Wings -->
-                <path d="M30 28 L90 28 L80 20 L40 20 Z" fill="#0f172a"/>
-                <path d="M35 32 L85 32 L75 38 L45 38 Z" fill="#0f172a"/>
-                <!-- Tail -->
-                <path d="M95 25 L110 15 L108 30 Z" fill="#0f172a"/>
-                <!-- Windows -->
-                <circle cx="45" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
-                <circle cx="55" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
-                <circle cx="65" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
-                <circle cx="75" cy="28" r="2" fill="#38bdf8" opacity="0.6"/>
-            </svg>
-        </div>
+<!-- Slide Track -->
+<div id="track">
 
-        <!-- Parachute -->
-        <div class="parachute">
-            <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
-                <!-- Parachute canopy -->
-                <path d="M5 30 Q30 5 55 30 Q30 20 5 30" fill="#0f172a"/>
-                <path d="M5 30 L15 60" stroke="#0f172a" stroke-width="2"/>
-                <path d="M55 30 L45 60" stroke="#0f172a" stroke-width="2"/>
-                <path d="M30 22 L30 60" stroke="#0f172a" stroke-width="2"/>
-                <!-- Person -->
-                <circle cx="30" cy="65" r="4" fill="#0f172a"/>
-                <line x1="30" y1="69" x2="30" y2="78" stroke="#0f172a" stroke-width="3"/>
-                <line x1="25" y1="72" x2="35" y2="72" stroke="#0f172a" stroke-width="2"/>
-                <line x1="30" y1="78" x2="25" y2="85" stroke="#0f172a" stroke-width="2"/>
-                <line x1="30" y1="78" x2="35" y2="85" stroke="#0f172a" stroke-width="2"/>
-            </svg>
+  <!-- SLIDE 0: Travellers Life -->
+  <div class="slide active" data-slide="0">
+    <div class="bg-img" id="bg0" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80');"></div>
+    <div class="slide-content">
+      <div class="left-panel">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          <span>Travellers Life · Est. 1998</span>
         </div>
-
-        <!-- The Traveler -->
-        <div class="traveler-container">
-            <svg class="traveler-svg" viewBox="0 0 60 80" fill="none">
-                <!-- Head -->
-                <circle cx="30" cy="12" r="8" fill="#0f172a"/>
-                <!-- Backpack -->
-                <rect x="38" y="18" width="10" height="20" rx="3" fill="#0f172a"/>
-                <!-- Body -->
-                <rect x="22" y="20" width="16" height="22" rx="4" fill="#0f172a"/>
-                <!-- Left Arm (running motion) -->
-                <line x1="22" y1="24" x2="8" y2="32" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
-                    <animate attributeName="x2" values="8;14;8" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="y2" values="32;26;32" dur="0.4s" repeatCount="indefinite"/>
-                </line>
-                <!-- Right Arm -->
-                <line x1="38" y1="24" x2="52" y2="32" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
-                    <animate attributeName="x2" values="52;46;52" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="y2" values="32;26;32" dur="0.4s" repeatCount="indefinite"/>
-                </line>
-                <!-- Left Leg -->
-                <line x1="26" y1="42" x2="16" y2="58" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
-                    <animate attributeName="x2" values="16;22;16" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="y2" values="58;50;58" dur="0.4s" repeatCount="indefinite"/>
-                </line>
-                <!-- Right Leg -->
-                <line x1="34" y1="42" x2="44" y2="58" stroke="#0f172a" stroke-width="4" stroke-linecap="round">
-                    <animate attributeName="x2" values="44;38;44" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="y2" values="58;50;58" dur="0.4s" repeatCount="indefinite"/>
-                </line>
-                <!-- Shoes -->
-                <ellipse cx="16" cy="60" rx="5" ry="3" fill="#0f172a">
-                    <animate attributeName="cx" values="16;22;16" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="60;52;60" dur="0.4s" repeatCount="indefinite"/>
-                </ellipse>
-                <ellipse cx="44" cy="60" rx="5" ry="3" fill="#0f172a">
-                    <animate attributeName="cx" values="44;38;44" dur="0.4s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="60;52;60" dur="0.4s" repeatCount="indefinite"/>
-                </ellipse>
-            </svg>
+        <div class="headline-wrap">
+          <span class="hl-solid">TRAVELLERS</span>
+          <span class="hl-outline">LIFE IS</span>
+          <span class="hl-gradient">THE BEST LIFE</span>
         </div>
-
-        <!-- Foreground Mountain -->
-        <div class="mountain-front parallax-layer" id="mountain-front">
-            <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path fill="#0f172a" fill-opacity="0.95" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
+        <p class="subtitle">Born in Kolkata · Exploring the world · Chasing sunsets & sound frequencies</p>
+        <div class="cta-row">
+          <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="btn-primary">Travel Diaries</a>
+          <a href="https://audioarcade.shop" target="_blank" class="btn-audio-arcade">
+            <span class="aa-icon">🎧</span>
+            <span class="aa-label">
+              <span class="aa-tag">Check My Product</span>
+              <span>Audio Arcade</span>
+            </span>
+          </a>
+          <a href="#" onclick="goSlide(1);return false;" class="btn-secondary">Bio & Links →</a>
         </div>
+      </div>
+      <div class="right-panel">
+        <div class="stats-card">
+          <div class="stats-card-title">// Journey Stats</div>
+          <div class="stat-item">
+            <div class="stat-num"><span>5K</span>+</div>
+            <div class="stat-label">Customers Worldwide</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-num"><span>2</span> Brands</div>
+            <div class="stat-label">Film Pixels · Audio Arcade</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-num">∞ <span>Miles</span></div>
+            <div class="stat-label">Still Exploring</div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <nav>
-        <div class="logo">devjyoti<span>.</span></div>
-        <a href="mailto:Devjyoti08bose@gmail.com" class="contact-btn">Let's Talk</a>
-    </nav>
-
-    <div class="container">
-        
-        <div class="intro-section scroll-anim">
-            <h2>Hello, I'm</h2>
-            <h1>DEVJYOTI BOSE</h1>
-            <div id="bd-counter" class="birthday-container">Loading timeline...</div>
+  <!-- SLIDE 1: Bio & Links -->
+  <div class="slide" data-slide="1">
+    <div class="bg-img" id="bg1" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&q=80');"></div>
+    <div class="bio-panel">
+      <div class="bio-inner">
+        <img src="profile.jpg" alt="Devjyoti Bose" class="bio-profile-img" onerror="this.style.background='linear-gradient(135deg,#FF6B35,#FFD700)';this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><text y=\'55\' x=\'50\' text-anchor=\'middle\' font-size=\'40\'>👤</text></svg>'">
+        <div class="bio-name">DEVJYOTI BOSE</div>
+        <div class="bio-tagline">Entrepreneur · Traveller · Founder</div>
+        <div id="bd-counter" class="bday-badge">Loading timeline...</div>
+        <div class="bio-text">
+          <p><strong>Audio Arcade:</strong> Founder | India's biggest Sound Library | Web Applications | Making the world a bit easier.</p>
+          <p><strong>Travel Diaries:</strong> Born in Kolkata, India | Traveling ✈️ the world 🌍</p>
+          <p><strong>Core Focus:</strong> Finance 📈 | Fitness 🏋️‍♂️ | Web Development 💻</p>
+          <p><strong>Connect:</strong> Meta Business partner 🤝 | Paws 🐾</p>
         </div>
-
-        <div class="profile-section scroll-anim">
-            <div class="profile-circle">
-                <img src="profile.jpg" alt="Devjyoti Bose" class="profile-img">
+        <div class="link-cards">
+          <a href="https://audioarcade.shop" target="_blank" class="link-card aa-special">
+            <div class="link-card-icon">🎧</div>
+            <div class="link-card-info">
+              <h4>Audio Arcade</h4>
+              <p>India's biggest Sound Library & Web Apps</p>
             </div>
-        </div>
-
-        <div class="bio-section scroll-anim">
-            <p><strong>Audio Arcade:</strong> Founder | India's biggest Sound Library | Web Applications | Making the world a bit easier.</p>
-            <p><strong>Travel Diaries:</strong> Born in Kolkata, India | Traveling ✈️ the world 🌍</p>
-            <p><strong>Core Focus:</strong> Finance 📈 | Fitness 🏋️‍♂️ | Web Development 💻</p>
-            <p><strong>Connect:</strong> Meta Business partner 🤝 | Paws 🐾</p>
-        </div>
-
-        <div class="cards-section">
-            <!-- ============================================
-                 SPECIAL HIGHLIGHTED AUDIO ARCADE BUTTON
-                 ============================================ -->
-            <a href="https://audioarcade.shop" target="_blank" class="audio-arcade-cta scroll-anim">
-                <span class="audio-arcade-badge">Featured</span>
-                <div class="card-icon">🎧</div>
-                <div class="card-info">
-                    <h3>Audio Arcade</h3>
-                    <p>Check out my products — India's biggest Sound Library, Web Apps & more.</p>
-                </div>
-            </a>
-
-            <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="card scroll-anim">
-                <div class="card-icon">✈️</div>
-                <div class="card-info">
-                    <h3>Travel Diaries</h3>
-                    <p>Born in Kolkata India and travelling ✈️ the world 🌍</p>
-                </div>
-            </a>
-
-            <a href="#" class="card scroll-anim">
-                <div class="card-icon">🐾</div>
-                <div class="card-info">
-                    <h3>Meta Business partner</h3>
-                    <p>And Paws 🐾</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- ============================================
-             20-DAY COUNTDOWN TIMER
-             ============================================ -->
-        <div class="countdown-section scroll-anim">
-            <div class="countdown-label">Something Big is Coming</div>
-            <div class="countdown-title">New Drop Incoming 🚀</div>
-            <div class="countdown-grid" id="countdown">
-                <div class="countdown-box">
-                    <span class="countdown-number" id="days">20</span>
-                    <span class="countdown-unit">Days</span>
-                </div>
-                <div class="countdown-box">
-                    <span class="countdown-number" id="hours">00</span>
-                    <span class="countdown-unit">Hours</span>
-                </div>
-                <div class="countdown-box">
-                    <span class="countdown-number" id="minutes">00</span>
-                    <span class="countdown-unit">Minutes</span>
-                </div>
-                <div class="countdown-box">
-                    <span class="countdown-number" id="seconds">00</span>
-                    <span class="countdown-unit">Seconds</span>
-                </div>
+          </a>
+          <a href="https://www.instagram.com/mr.bose____?igsh=aXBmYThoZm5rdnpz&utm_source=qr" target="_blank" class="link-card">
+            <div class="link-card-icon">✈️</div>
+            <div class="link-card-info">
+              <h4>Travel Diaries</h4>
+              <p>Born in Kolkata, travelling the world</p>
             </div>
-            <div class="countdown-message">Stay tuned for the reveal.</div>
+          </a>
+          <a href="#" class="link-card">
+            <div class="link-card-icon">🐾</div>
+            <div class="link-card-info">
+              <h4>Meta Business Partner</h4>
+              <p>And Paws 🐾</p>
+            </div>
+          </a>
         </div>
-
-        <div class="music-embed scroll-anim">
-            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+        <div class="music-wrap">
+          <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="200" style="width:100%;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
         </div>
-
+      </div>
     </div>
+  </div>
 
-    <script>
-        // ============================================
-        // SCROLL PARALLAX FOR MOUNTAINS
-        // ============================================
-        const mountainBack = document.getElementById('mountain-back');
-        const mountainFront = document.getElementById('mountain-front');
+</div><!-- /track -->
 
-        window.addEventListener('scroll', () => {
-            let value = window.scrollY;
-            mountainBack.style.transform = `translateY(${value * 0.05}px) scale(${1 + value * 0.0003})`;
-            mountainFront.style.transform = `translateY(${value * 0.02}px) scale(${1 + value * 0.0005})`;
-        });
+<!-- Slide Indicator -->
+<div class="slide-indicator">
+  <div class="ind-dot active" onclick="goSlide(0)"></div>
+  <div class="ind-dot" onclick="goSlide(1)"></div>
+</div>
 
-        // ============================================
-        // FAST FADE/SLIDE ELEMENT ANIMATIONS
-        // ============================================
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+<!-- Nav Hint -->
+<div class="nav-hint">
+  <div class="nav-arrows">
+    <div class="arr">←</div>
+    <div class="arr">→</div>
+  </div>
+  <span>Navigate</span>
+</div>
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
+<!-- Countdown (slide 1) -->
+<div id="countdown-section">
+  <div class="countdown-card">
+    <div class="cd-title">// Something New Drops In</div>
+    <div class="cd-digits">
+      <div class="cd-unit"><span class="cd-num" id="cd-days">20</span><span class="cd-label">Days</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hours</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Mins</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Secs</span></div>
+    </div>
+    <span class="cd-tag">🔥 Stay Tuned</span>
+  </div>
+</div>
 
-        document.querySelectorAll('.scroll-anim').forEach(el => {
-            observer.observe(el);
-        });
+<!-- Ticker Bar -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker">
+    <div class="ticker-item"><span class="dot">●</span> Audio Arcade · India's Biggest Sound Library <span class="dot">●</span> Film Pixels · Professional Editing Assets <span class="dot">●</span> 5000+ Customers Worldwide <span class="dot">●</span> Meta Business Partner <span class="dot">●</span> Born in Kolkata · Exploring the World <span class="dot">●</span> New Drop Coming Soon · Stay Tuned <span class="dot">●</span> Finance · Fitness · Web Development <span class="dot">●</span></div>
+    <div class="ticker-item"><span class="dot">●</span> Audio Arcade · India's Biggest Sound Library <span class="dot">●</span> Film Pixels · Professional Editing Assets <span class="dot">●</span> 5000+ Customers Worldwide <span class="dot">●</span> Meta Business Partner <span class="dot">●</span> Born in Kolkata · Exploring the World <span class="dot">●</span> New Drop Coming Soon · Stay Tuned <span class="dot">●</span> Finance · Fitness · Web Development <span class="dot">●</span></div>
+  </div>
+</div>
 
-        // ============================================
-        // BIRTHDAY ANIMATION LOGIC
-        // ============================================
-        window.addEventListener('DOMContentLoaded', () => {
-            const counterElement = document.getElementById('bd-counter');
-            const startYear = new Date().getFullYear(); 
-            const endYear = 1998; 
-            const duration = 2000; 
-            const totalSteps = startYear - endYear;
-            const intervalTime = duration / totalSteps; 
-            let currentDisplayYear = startYear;
-            
-            const timer = setInterval(() => {
-                currentDisplayYear--;
-                counterElement.innerText = `8th of January ${currentDisplayYear}`;
-                
-                if (currentDisplayYear <= endYear) {
-                    clearInterval(timer);
-                    setTimeout(() => {
-                        counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
-                        counterElement.classList.add('birthday-pop');
-                    }, 100);
-                }
-            }, intervalTime);
-        });
+<script>
+// ── STATE ──
+let current = 0;
+let isTransitioning = false;
+const totalSlides = 2;
 
-        // ============================================
-        // 20-DAY COUNTDOWN TIMER
-        // ============================================
-        (function() {
-            // Set target date to 20 days from now
-            const now = new Date();
-            const targetDate = new Date(now.getTime() + (20 * 24 * 60 * 60 * 1000));
-            
-            function updateCountdown() {
-                const current = new Date();
-                const diff = targetDate - current;
-                
-                if (diff <= 0) {
-                    document.getElementById('days').textContent = '00';
-                    document.getElementById('hours').textContent = '00';
-                    document.getElementById('minutes').textContent = '00';
-                    document.getElementById('seconds').textContent = '00';
-                    document.querySelector('.countdown-message').textContent = "It's here! 🎉";
-                    return;
-                }
-                
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.getElementById('days').textContent = days.toString().padStart(2, '0');
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            }
-            
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-        })();
-    </script>
+// ── SLIDE NAVIGATION ──
+function goSlide(idx){
+  if(isTransitioning || idx === current || idx < 0 || idx >= totalSlides) return;
+  isTransitioning = true;
+
+  const overlay = document.getElementById('transition-overlay');
+  overlay.classList.add('active');
+
+  setTimeout(()=>{
+    current = idx;
+    const track = document.getElementById('track');
+
+    // Slide track
+    track.style.transform = `translateX(-${current * 100}vw)`;
+
+    // Update slide active classes
+    document.querySelectorAll('.slide').forEach((s,i)=>{
+      s.classList.toggle('active', i===current);
+    });
+
+    // Update palette on active slide
+    applyPalette(current);
+
+    // Update indicators
+    document.querySelectorAll('.ind-dot').forEach((d,i)=>{
+      d.classList.toggle('active', i===current);
+    });
+
+    // Show/hide countdown
+    document.getElementById('countdown-section').style.display = current===1 ? 'block' : 'none';
+
+    overlay.classList.remove('active');
+
+    setTimeout(()=>{ isTransitioning = false; }, 400);
+  }, 350);
+}
+
+// ── PALETTE ──
+function applyPalette(idx){
+  const palettes = [
+    {c1:'#FF6B35',c2:'#FFD700'},
+    {c1:'#00D4FF',c2:'#7C3AED'}
+  ];
+  const p = palettes[idx];
+  document.documentElement.style.setProperty('--sp1', p.c1);
+  document.documentElement.style.setProperty('--sp2', p.c2);
+  // Update gradient headline
+  document.querySelectorAll('.hl-gradient').forEach(el=>{
+    el.style.backgroundImage = `linear-gradient(90deg,${p.c1},${p.c2})`;
+    el.style.webkitBackgroundClip = 'text';
+    el.style.webkitTextFillColor = 'transparent';
+    el.style.backgroundClip = 'text';
+  });
+  document.querySelectorAll('.stat-num span').forEach(el=>el.style.color=p.c1);
+  document.querySelectorAll('.stats-card::before').forEach(el=>{});
+}
+
+// ── MOUSE PARALLAX ──
+document.addEventListener('mousemove',(e)=>{
+  const xPct = (e.clientX / window.innerWidth - 0.5);
+  const yPct = (e.clientY / window.innerHeight - 0.5);
+  const bg = document.getElementById('bg'+current);
+  if(bg){
+    bg.style.transform = `scale(1.08) translate(${xPct*-18}px,${yPct*-10}px)`;
+  }
+});
+
+// ── KEYBOARD NAV ──
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') goSlide(current+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') goSlide(current-1);
+});
+
+// ── SCROLL WHEEL ──
+let wheelLock = false;
+window.addEventListener('wheel',(e)=>{
+  if(wheelLock) return;
+  wheelLock = true;
+  if(e.deltaY > 30) goSlide(current+1);
+  if(e.deltaY < -30) goSlide(current-1);
+  setTimeout(()=>{wheelLock=false;},900);
+},{passive:true});
+
+// ── SWIPE / TOUCH ──
+let touchStartX=0, touchStartY=0;
+window.addEventListener('touchstart',(e)=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+window.addEventListener('touchend',(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)){
+    if(dx<-40) goSlide(current+1);
+    if(dx>40) goSlide(current-1);
+  }
+},{passive:true});
+
+// ── BIRTHDAY COUNTER ──
+window.addEventListener('DOMContentLoaded',()=>{
+  const el=document.getElementById('bd-counter');
+  const startYear=new Date().getFullYear();
+  const endYear=1998;
+  const totalSteps=startYear-endYear;
+  const intervalTime=2000/totalSteps;
+  let y=startYear;
+  const t=setInterval(()=>{
+    y--;
+    el.textContent=`8th of January ${y}`;
+    if(y<=endYear){
+      clearInterval(t);
+      setTimeout(()=>{
+        el.innerHTML=`🎉 8th of January 1998 — My Birthday! 🎉`;
+        el.style.background='rgba(255,107,53,0.2)';
+        el.style.borderColor='rgba(255,107,53,0.4)';
+        el.style.color='#FF6B35';
+      },100);
+    }
+  },intervalTime);
+});
+
+// ── COUNTDOWN (20 days from today) ──
+(function(){
+  const target=new Date();
+  target.setDate(target.getDate()+20);
+  target.setHours(0,0,0,0);
+  function tick(){
+    const now=new Date();
+    let diff=target-now;
+    if(diff<=0){diff=0;}
+    const days=Math.floor(diff/86400000);
+    const hours=Math.floor((diff%86400000)/3600000);
+    const mins=Math.floor((diff%3600000)/60000);
+    const secs=Math.floor((diff%60000)/1000);
+    document.getElementById('cd-days').textContent=String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent=String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent=String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent=String(secs).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+
+// ── INITIAL PALETTE ──
+applyPalette(0);
+
+// ── SLOW ZOOM ON ACTIVE SLIDE ──
+setInterval(()=>{
+  // Zoom cycles naturally via CSS; just ensure active class is correct
+},100);
+</script>
 </body>
-</html>'''
-
-with open('/mnt/agents/output/devjyoti-bose-upgraded.html', 'w', encoding='utf-8') as f:
-    f.write(html_code)
-
-print("File saved successfully!")
-print(f"Total lines: {len(html_code.splitlines())}")
-print(f"File size: {len(html_code)} characters")
+</html>
