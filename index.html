@@ -7,12 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Updated to a soft sky gradient for the landscape */
             --bg-color: linear-gradient(180deg, #e0f2fe 0%, #f8f9fa 100%);
             --text-dark: #0f172a;
             --text-gray: #475569;
             --primary-blue: #007bff;
-            /* Glassmorphism card backgrounds */
             --card-bg: rgba(255, 255, 255, 0.65);
             --shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,52 +30,47 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 150vh; /* Ensure there is room to scroll */
+            min-height: 180vh; /* Gives room to scroll and trigger animations */
         }
 
-        /* --- Dynamic Animated Landscape Background --- */
-        .landscape-container {
+        /* --- 1. Story Silhouette Animation Background --- */
+        .story-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            z-index: -1; /* Keeps it behind everything */
+            z-index: -1;
             overflow: hidden;
             pointer-events: none;
+            opacity: 0.15; /* Keeps it subtle and professional */
+            filter: grayscale(1) brightness(0); /* Turns emojis into sleek black silhouettes */
         }
         
-        .sun {
+        .scene-element {
             position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #fef08a, #f59e0b);
-            border-radius: 50%;
-            box-shadow: 0 0 60px rgba(245, 158, 11, 0.4);
-            will-change: transform;
+            font-size: 8rem;
+            transition: all 0.5s ease-out;
+            opacity: 0;
+            transform: translateY(50px);
         }
 
-        .layer {
+        #traveler {
+            font-size: 5rem;
             position: absolute;
-            bottom: -50px;
-            width: 100vw;
-            height: auto;
-            will-change: transform;
-            transform-origin: bottom center;
+            bottom: 20%;
+            left: -10%;
+            transition: transform 0.1s linear, opacity 0.3s ease;
+            z-index: 5;
         }
-        
-        /* Layer 3: Farthest Mountains */
-        .layer3 { z-index: 1; fill: #cbd5e1; opacity: 0.8; }
-        /* Layer 2: Mid Hills */
-        .layer2 { z-index: 2; fill: #e2e8f0; opacity: 0.9; }
-        /* Layer 1: Front Landscape */
-        .layer1 { z-index: 3; fill: #f8f9fa; }
+
+        /* Scene Props */
+        #sea { bottom: 10%; right: 20%; font-size: 15rem; }
+        #plane { top: 20%; right: -20%; font-size: 12rem; }
+        #mountain { bottom: 5%; right: 10%; font-size: 20rem; }
 
 
-        /* Navigation */
+        /* --- UI Layout --- */
         nav {
             width: 100%;
             max-width: 800px;
@@ -101,12 +94,7 @@
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
             transition: var(--transition);
         }
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
-        }
 
-        /* Main Container */
         .container {
             width: 100%;
             max-width: 600px;
@@ -118,7 +106,7 @@
             z-index: 10;
         }
 
-        /* 1. Header Section */
+        /* Header */
         .intro-section { width: 100%; margin-bottom: 1rem; }
         .intro-section h2 { font-size: 1.1rem; color: var(--text-gray); font-weight: 600; margin-bottom: 0.2rem; }
         .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; }
@@ -133,160 +121,128 @@
             border-radius: 10px;
             display: inline-block;
             margin-bottom: 1.5rem;
-            transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
         .birthday-pop {
             background: var(--primary-blue);
             color: white;
             box-shadow: 0 5px 20px rgba(0, 123, 255, 0.35);
-            transform: scale(1.05);
-            border: none;
         }
 
-        /* 2. Profile Picture */
-        .profile-section {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            position: relative;
-        }
+        /* Profile */
+        .profile-section { width: 100%; display: flex; justify-content: center; margin-bottom: 2rem; }
         .profile-circle {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            position: relative;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            padding: 8px; /* Adds a nice glass ring around the photo */
+            width: 250px; height: 250px; border-radius: 50%;
+            background: rgba(255,255,255,0.5); backdrop-filter: blur(10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); padding: 8px;
         }
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            z-index: 2;
-        }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
-        /* 3. Unsegmented Bio with Glassmorphism */
+        /* Bio */
         .bio-section {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1.8rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 2.5rem;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            width: 100%; background: var(--card-bg); backdrop-filter: blur(12px);
+            padding: 1.8rem; border-radius: 20px; box-shadow: var(--shadow);
+            margin-bottom: 2.5rem; text-align: left; border: 1px solid rgba(255, 255, 255, 0.8);
         }
-        .bio-section p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-gray);
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-        .bio-section p:last-child { margin-bottom: 0; }
+        .bio-section p { font-size: 0.95rem; line-height: 1.6; color: var(--text-gray); margin-bottom: 0.8rem; font-weight: 500; }
         .bio-section strong { color: var(--text-dark); font-weight: 800; }
 
-        /* 4. Link Cards with Glassmorphism */
-        .cards-section {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
+        /* Links */
+        .cards-section { width: 100%; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+        
         .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1.2rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            text-decoration: none;
-            color: var(--text-dark);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            text-align: left;
+            background: var(--card-bg); backdrop-filter: blur(12px);
+            padding: 1.2rem; border-radius: 16px; box-shadow: var(--shadow);
+            display: flex; align-items: center; gap: 1.2rem; text-decoration: none;
+            color: var(--text-dark); transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.8); text-align: left;
         }
-        .card:hover, .card:active {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
-            border-color: rgba(0, 123, 255, 0.4);
-            background: rgba(255, 255, 255, 0.9);
-        }
+        .card:hover { transform: translateY(-3px) scale(1.02); background: rgba(255, 255, 255, 0.9); }
         .card-icon {
-            width: 55px;
-            height: 55px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            width: 55px; height: 55px; background: rgba(255,255,255,0.8);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0;
         }
         .card-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem; }
         .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
 
-        /* 5. Apple Music */
-        .music-embed {
-            width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 0.8rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+        /* --- 2. Highlighted Audio Arcade Button --- */
+        .highlight-card {
+            background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%);
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
         }
-        iframe { border-radius: 12px; }
+        .highlight-card .card-info h3 { color: white; }
+        .highlight-card .card-info p { color: rgba(255,255,255,0.9); }
+        .highlight-card .card-icon { background: rgba(255,255,255,0.2); color: white; }
+        .highlight-card:hover { box-shadow: 0 15px 35px rgba(0, 123, 255, 0.6); }
+        
+        .badge {
+            position: absolute;
+            top: -1px;
+            right: 15px;
+            background: #ff3b30;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 0 0 8px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* Fast Scroll Animation Classes */
-        .scroll-anim {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: opacity, transform;
+        /* Apple Music */
+        .music-embed {
+            width: 100%; background: var(--card-bg); backdrop-filter: blur(12px);
+            padding: 0.8rem; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 2.5rem;
         }
-        .scroll-anim.show {
-            opacity: 1;
-            transform: translateY(0);
+
+        /* --- 3. Product Drop Countdown --- */
+        .drop-countdown {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
+        .drop-title { font-size: 1rem; font-weight: 800; margin-bottom: 1rem; color: #00d2ff; text-transform: uppercase; letter-spacing: 2px;}
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .time-box span { font-size: 2rem; font-weight: 900; line-height: 1; }
+        .time-box label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; margin-top: 5px; font-weight: 700;}
+
+        /* Fast Scroll Animations */
+        .scroll-anim { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .scroll-anim.show { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 480px) {
             .intro-section h1 { font-size: 2.8rem; }
             .profile-circle { width: 220px; height: 220px; }
-            .bio-section { padding: 1.2rem; }
+            .timer-grid { gap: 0.5rem; }
+            .time-box span { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="landscape-container">
-        <div class="sun" id="bg-sun"></div>
-        
-        <svg class="layer layer3" id="bg-layer3" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-
-        <svg class="layer layer2" id="bg-layer2" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,170.7C672,139,768,85,864,96C960,107,1056,181,1152,202.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-
-        <svg class="layer layer1" id="bg-layer1" viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
+    <div class="story-bg">
+        <div id="sea" class="scene-element">🌊</div>
+        <div id="plane" class="scene-element">✈️</div>
+        <div id="mountain" class="scene-element">⛰️</div>
+        <div id="traveler">🏃‍♂️</div>
     </div>
 
     <nav>
@@ -316,11 +272,12 @@
         </div>
 
         <div class="cards-section">
-            <a href="https://audioarcade.shop" target="_blank" class="card scroll-anim">
+            <a href="https://audioarcade.shop" target="_blank" class="card highlight-card scroll-anim">
+                <div class="badge">Check Products</div>
                 <div class="card-icon">🎧</div>
                 <div class="card-info">
                     <h3>Audio Arcade</h3>
-                    <p>India's biggest Sound Library, Web Applications & Making the World a bit easier.</p>
+                    <p>India's biggest Sound Library & Web Apps</p>
                 </div>
             </a>
 
@@ -328,7 +285,7 @@
                 <div class="card-icon">✈️</div>
                 <div class="card-info">
                     <h3>Travel Diaries</h3>
-                    <p>Born in Kolkata India and travelling ✈️ the world 🌍</p>
+                    <p>Born in Kolkata India and travelling the world</p>
                 </div>
             </a>
 
@@ -342,77 +299,136 @@
         </div>
 
         <div class="music-embed scroll-anim">
-            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+        </div>
+
+        <div class="drop-countdown scroll-anim">
+            <div class="drop-title">Something New Drops In</div>
+            <div class="timer-grid">
+                <div class="time-box"><span id="days">20</span><label>Days</label></div>
+                <div class="time-box"><span>:</span><label></label></div>
+                <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+                <div class="time-box"><span>:</span><label></label></div>
+                <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+                <div class="time-box"><span>:</span><label></label></div>
+                <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // --- Landscape Traveling Parallax Effect ---
-        const sun = document.getElementById('bg-sun');
-        const layer1 = document.getElementById('bg-layer1');
-        const layer2 = document.getElementById('bg-layer2');
-        const layer3 = document.getElementById('bg-layer3');
+        // --- Story Silhouette Scroll Animation ---
+        const traveler = document.getElementById('traveler');
+        const sea = document.getElementById('sea');
+        const plane = document.getElementById('plane');
+        const mountain = document.getElementById('mountain');
 
         window.addEventListener('scroll', () => {
-            let value = window.scrollY;
+            // Calculate scroll percentage (0 to 1)
+            let scrollY = window.scrollY;
+            let maxScroll = document.body.scrollHeight - window.innerHeight;
+            let progress = maxScroll > 0 ? scrollY / maxScroll : 0;
             
-            // As you scroll down, the sun sets slightly
-            sun.style.transform = `translate(-50%, ${value * 0.3}px)`;
-            
-            // The landscape layers scale and translate at different speeds to create depth
-            // Layer 3 (Back) moves slowest
-            layer3.style.transform = `translateY(${value * 0.15}px) scale(${1 + value * 0.0005})`;
-            // Layer 2 (Middle) moves slightly faster
-            layer2.style.transform = `translateY(${value * 0.1}px) scale(${1 + value * 0.001})`;
-            // Layer 1 (Front) scales the most, creating a "moving forward" effect
-            layer1.style.transform = `translateY(${value * 0.05}px) scale(${1 + value * 0.002})`;
+            // Map the traveler's position across the screen
+            let xPos = progress * window.innerWidth;
+            let yPos = 0;
+
+            // Phase 1: Running (0% - 25%)
+            if (progress < 0.25) {
+                traveler.innerText = '🏃‍♂️';
+                yPos = 0;
+                sea.style.opacity = 0;
+            } 
+            // Phase 2: Swimming in Sea (25% - 50%)
+            else if (progress < 0.50) {
+                traveler.innerText = '🏊‍♂️';
+                yPos = -20; // dip down
+                sea.style.opacity = 0.5;
+                sea.style.transform = 'translateY(0)';
+                plane.style.opacity = 0;
+                plane.style.transform = 'translateX(200px)';
+            } 
+            // Phase 3: Falling from Plane (50% - 75%)
+            else if (progress < 0.75) {
+                traveler.innerText = '🪂';
+                yPos = -(window.innerHeight * 0.4); // High up in the sky
+                sea.style.opacity = 0;
+                plane.style.opacity = 0.8;
+                plane.style.transform = `translateX(-${progress * 200}px)`; // Plane flies left
+                mountain.style.opacity = 0;
+                mountain.style.transform = 'translateY(100px)';
+            } 
+            // Phase 4: Landing on Mountain (75% - 100%)
+            else {
+                traveler.innerText = '🧍‍♂️';
+                // Calculate landing trajectory
+                let landingProgress = (progress - 0.75) / 0.25;
+                yPos = -(window.innerHeight * 0.4) * (1 - landingProgress) - 50; 
+                plane.style.opacity = 0;
+                mountain.style.opacity = 0.8;
+                mountain.style.transform = 'translateY(0)';
+            }
+
+            traveler.style.transform = `translate(${xPos}px, ${yPos}px)`;
         });
 
+        // --- 20 Day Countdown Timer ---
+        // Set the target date to exactly 20 days from the moment the user loads this script
+        let dropDate = localStorage.getItem('dropDate');
+        if (!dropDate) {
+            dropDate = new Date().getTime() + (20 * 24 * 60 * 60 * 1000);
+            localStorage.setItem('dropDate', dropDate);
+        }
 
-        // --- Fast Fade/Slide Element Animations ---
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        const x = setInterval(function() {
+            let now = new Date().getTime();
+            let distance = dropDate - now;
 
-        const observer = new IntersectionObserver((entries, observer) => {
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("mins").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("secs").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.querySelector(".timer-grid").innerHTML = "DROPPED NOW!";
+            }
+        }, 1000);
+
+        // --- Fast UI Elements Animation ---
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('show');
-                    observer.unobserve(entry.target); 
+                    obs.unobserve(entry.target); 
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.scroll-anim').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.scroll-anim').forEach(el => observer.observe(el));
 
-
-        // --- Birthday Animation Logic ---
+        // --- Birthday Animation ---
         window.addEventListener('DOMContentLoaded', () => {
             const counterElement = document.getElementById('bd-counter');
-            const startYear = new Date().getFullYear(); 
+            let currentYear = new Date().getFullYear(); 
             const endYear = 1998; 
-            const duration = 2000; 
-            const totalSteps = startYear - endYear;
-            const intervalTime = duration / totalSteps; 
-            let currentDisplayYear = startYear;
-            
             const timer = setInterval(() => {
-                currentDisplayYear--;
-                counterElement.innerText = `8th of January ${currentDisplayYear}`;
-                
-                if (currentDisplayYear <= endYear) {
+                currentYear--;
+                counterElement.innerText = `8th of January ${currentYear}`;
+                if (currentYear <= endYear) {
                     clearInterval(timer);
                     setTimeout(() => {
                         counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
                         counterElement.classList.add('birthday-pop');
                     }, 100);
                 }
-            }, intervalTime);
+            }, 2000 / (new Date().getFullYear() - endYear));
         });
     </script>
 </body>
