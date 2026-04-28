@@ -30,11 +30,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 180vh; /* Gives room to scroll and trigger animations */
+            min-height: 150vh;
         }
 
-        /* --- 1. Story Silhouette Animation Background --- */
-        .story-bg {
+        /* Landscape Container */
+        .landscape-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -43,34 +43,57 @@
             z-index: -1;
             overflow: hidden;
             pointer-events: none;
-            opacity: 0.15; /* Keeps it subtle and professional */
-            filter: grayscale(1) brightness(0); /* Turns emojis into sleek black silhouettes */
         }
         
-        .scene-element {
+        .sun {
             position: absolute;
-            font-size: 8rem;
-            transition: all 0.5s ease-out;
-            opacity: 0;
-            transform: translateY(50px);
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fef08a, #f59e0b);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(245, 158, 11, 0.4);
         }
 
-        #traveler {
-            font-size: 5rem;
+        .layer {
             position: absolute;
-            bottom: 20%;
-            left: -10%;
-            transition: transform 0.1s linear, opacity 0.3s ease;
-            z-index: 5;
+            bottom: -50px;
+            width: 100vw;
+            height: auto;
+            will-change: transform;
+            transform-origin: bottom center;
+        }
+        
+        .layer3 { z-index: 1; fill: #cbd5e1; opacity: 0.8; }
+        .layer2 { z-index: 2; fill: #e2e8f0; opacity: 0.9; }
+        .layer1 { z-index: 3; fill: #f8f9fa; }
+
+        /* Traveler Silhouette Animation */
+        .traveler {
+            position: absolute;
+            bottom: 180px;
+            left: -120px;
+            width: 80px;
+            height: 120px;
+            font-size: 60px;
+            z-index: 10;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+            animation: travelerJourney 25s linear infinite;
         }
 
-        /* Scene Props */
-        #sea { bottom: 10%; right: 20%; font-size: 15rem; }
-        #plane { top: 20%; right: -20%; font-size: 12rem; }
-        #mountain { bottom: 5%; right: 10%; font-size: 20rem; }
+        @keyframes travelerJourney {
+            0%   { transform: translateX(0) translateY(0) rotate(0deg); }
+            20%  { transform: translateX(25vw) translateY(-30px) rotate(-8deg); }   /* running */
+            35%  { transform: translateX(45vw) translateY(-120px) rotate(15deg); }  /* jump into sea */
+            50%  { transform: translateX(65vw) translateY(-80px) rotate(-5deg); }   /* plane catch */
+            70%  { transform: translateX(85vw) translateY(-280px) rotate(10deg); }  /* flying high */
+            85%  { transform: translateX(105vw) translateY(-100px) rotate(-25deg); } /* falling from plane */
+            100% { transform: translateX(130vw) translateY(20px) rotate(0deg); }    /* lands on mountain */
+        }
 
-
-        /* --- UI Layout --- */
+        /* Navigation & Container styles remain the same */
         nav {
             width: 100%;
             max-width: 800px;
@@ -94,6 +117,10 @@
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
             transition: var(--transition);
         }
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
 
         .container {
             width: 100%;
@@ -106,8 +133,6 @@
             z-index: 10;
         }
 
-        /* Header */
-        .intro-section { width: 100%; margin-bottom: 1rem; }
         .intro-section h2 { font-size: 1.1rem; color: var(--text-gray); font-weight: 600; margin-bottom: 0.2rem; }
         .intro-section h1 { font-size: 3.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: -1px; }
 
@@ -121,128 +146,195 @@
             border-radius: 10px;
             display: inline-block;
             margin-bottom: 1.5rem;
+            transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
         .birthday-pop {
             background: var(--primary-blue);
             color: white;
             box-shadow: 0 5px 20px rgba(0, 123, 255, 0.35);
+            transform: scale(1.05);
+            border: none;
         }
 
-        /* Profile */
-        .profile-section { width: 100%; display: flex; justify-content: center; margin-bottom: 2rem; }
         .profile-circle {
-            width: 250px; height: 250px; border-radius: 50%;
-            background: rgba(255,255,255,0.5); backdrop-filter: blur(10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1); padding: 8px;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            padding: 8px;
         }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-        /* Bio */
         .bio-section {
-            width: 100%; background: var(--card-bg); backdrop-filter: blur(12px);
-            padding: 1.8rem; border-radius: 20px; box-shadow: var(--shadow);
-            margin-bottom: 2.5rem; text-align: left; border: 1px solid rgba(255, 255, 255, 0.8);
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 1.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
-        .bio-section p { font-size: 0.95rem; line-height: 1.6; color: var(--text-gray); margin-bottom: 0.8rem; font-weight: 500; }
+        .bio-section p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-gray);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
         .bio-section strong { color: var(--text-dark); font-weight: 800; }
 
-        /* Links */
-        .cards-section { width: 100%; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-        
-        .card {
-            background: var(--card-bg); backdrop-filter: blur(12px);
-            padding: 1.2rem; border-radius: 16px; box-shadow: var(--shadow);
-            display: flex; align-items: center; gap: 1.2rem; text-decoration: none;
-            color: var(--text-dark); transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.8); text-align: left;
-        }
-        .card:hover { transform: translateY(-3px) scale(1.02); background: rgba(255, 255, 255, 0.9); }
-        .card-icon {
-            width: 55px; height: 55px; background: rgba(255,255,255,0.8);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0;
-        }
-        .card-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem; }
-        .card-info p { font-size: 0.85rem; color: var(--text-gray); font-weight: 500; line-height: 1.4; }
-
-        /* --- 2. Highlighted Audio Arcade Button --- */
-        .highlight-card {
-            background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%);
-            color: white;
-            border: none;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
-        }
-        .highlight-card .card-info h3 { color: white; }
-        .highlight-card .card-info p { color: rgba(255,255,255,0.9); }
-        .highlight-card .card-icon { background: rgba(255,255,255,0.2); color: white; }
-        .highlight-card:hover { box-shadow: 0 15px 35px rgba(0, 123, 255, 0.6); }
-        
-        .badge {
-            position: absolute;
-            top: -1px;
-            right: 15px;
-            background: #ff3b30;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 0 0 8px 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Apple Music */
-        .music-embed {
-            width: 100%; background: var(--card-bg); backdrop-filter: blur(12px);
-            padding: 0.8rem; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 2.5rem;
-        }
-
-        /* --- 3. Product Drop Countdown --- */
-        .drop-countdown {
+        /* Cards */
+        .cards-section {
             width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .drop-title { font-size: 1rem; font-weight: 800; margin-bottom: 1rem; color: #00d2ff; text-transform: uppercase; letter-spacing: 2px;}
-        .timer-grid {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .time-box {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
         }
-        .time-box span { font-size: 2rem; font-weight: 900; line-height: 1; }
-        .time-box label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; margin-top: 5px; font-weight: 700;}
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 1.2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            text-align: left;
+        }
+        .card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
+            border-color: rgba(0, 123, 255, 0.4);
+            background: rgba(255, 255, 255, 0.9);
+        }
 
-        /* Fast Scroll Animations */
-        .scroll-anim { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .scroll-anim.show { opacity: 1; transform: translateY(0); }
+        /* Highlighted Audio Arcade Button */
+        .audio-arcade-card {
+            background: linear-gradient(135deg, #007bff, #00aaff);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .audio-arcade-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 300%;
+            background: linear-gradient(120deg, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); }
+            20% { transform: translateX(300%) skewX(-25deg); }
+            100% { transform: translateX(300%) skewX(-25deg); }
+        }
+        .audio-arcade-card .card-icon {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            font-size: 2rem;
+        }
+        .audio-arcade-card h3 {
+            font-size: 1.2rem;
+        }
+
+        .music-embed {
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 0.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Countdown */
+        .countdown-section {
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 1.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            margin-top: 2rem;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        .countdown-item {
+            background: rgba(255,255,255,0.8);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            min-width: 70px;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-top: 4px;
+        }
+
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .scroll-anim.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         @media (max-width: 480px) {
             .intro-section h1 { font-size: 2.8rem; }
             .profile-circle { width: 220px; height: 220px; }
-            .timer-grid { gap: 0.5rem; }
-            .time-box span { font-size: 1.5rem; }
+            .traveler { width: 60px; height: 90px; font-size: 45px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="story-bg">
-        <div id="sea" class="scene-element">🌊</div>
-        <div id="plane" class="scene-element">✈️</div>
-        <div id="mountain" class="scene-element">⛰️</div>
-        <div id="traveler">🏃‍♂️</div>
+    <div class="landscape-container">
+        <div class="sun" id="bg-sun"></div>
+        
+        <!-- Existing mountain layers -->
+        <svg class="layer layer3" id="bg-layer3" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="layer layer2" id="bg-layer2" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d="M0,160L48,170.7C96,181,192,203,288,208C384,213,480,203,576,170.7C672,139,768,85,864,96C960,107,1056,181,1152,202.7C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+        <svg class="layer layer1" id="bg-layer1" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,213.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+
+        <!-- Traveler Silhouette -->
+        <div class="traveler" id="traveler">🏃‍♂️</div>
     </div>
 
     <nav>
@@ -272,12 +364,12 @@
         </div>
 
         <div class="cards-section">
-            <a href="https://audioarcade.shop" target="_blank" class="card highlight-card scroll-anim">
-                <div class="badge">Check Products</div>
+            <!-- Highlighted Audio Arcade -->
+            <a href="https://audioarcade.shop" target="_blank" class="card audio-arcade-card scroll-anim">
                 <div class="card-icon">🎧</div>
                 <div class="card-info">
-                    <h3>Audio Arcade</h3>
-                    <p>India's biggest Sound Library & Web Apps</p>
+                    <h3>Audio Arcade - Shop Now</h3>
+                    <p>India's biggest Sound Library & Web Applications<br><strong>Explore Products →</strong></p>
                 </div>
             </a>
 
@@ -285,7 +377,7 @@
                 <div class="card-icon">✈️</div>
                 <div class="card-info">
                     <h3>Travel Diaries</h3>
-                    <p>Born in Kolkata India and travelling the world</p>
+                    <p>Born in Kolkata India and travelling ✈️ the world 🌍</p>
                 </div>
             </a>
 
@@ -299,137 +391,104 @@
         </div>
 
         <div class="music-embed scroll-anim">
-            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
+            <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="400" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/i-reflect-here/pl.u-GgA5kl6coML3ygm"></iframe>
         </div>
 
-        <div class="drop-countdown scroll-anim">
-            <div class="drop-title">Something New Drops In</div>
-            <div class="timer-grid">
-                <div class="time-box"><span id="days">20</span><label>Days</label></div>
-                <div class="time-box"><span>:</span><label></label></div>
-                <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
-                <div class="time-box"><span>:</span><label></label></div>
-                <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
-                <div class="time-box"><span>:</span><label></label></div>
-                <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+        <!-- New 20-Day Countdown -->
+        <div class="countdown-section scroll-anim">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-blue);">Something New Drops In</h3>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item"><span id="days">20</span><div class="countdown-label">DAYS</div></div>
+                <div class="countdown-item"><span id="hours">00</span><div class="countdown-label">HOURS</div></div>
+                <div class="countdown-item"><span id="minutes">00</span><div class="countdown-label">MINUTES</div></div>
+                <div class="countdown-item"><span id="seconds">00</span><div class="countdown-label">SECONDS</div></div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // --- Story Silhouette Scroll Animation ---
-        const traveler = document.getElementById('traveler');
-        const sea = document.getElementById('sea');
-        const plane = document.getElementById('plane');
-        const mountain = document.getElementById('mountain');
+        // Parallax Scroll Effect
+        const sun = document.getElementById('bg-sun');
+        const layer1 = document.getElementById('bg-layer1');
+        const layer2 = document.getElementById('bg-layer2');
+        const layer3 = document.getElementById('bg-layer3');
 
         window.addEventListener('scroll', () => {
-            // Calculate scroll percentage (0 to 1)
-            let scrollY = window.scrollY;
-            let maxScroll = document.body.scrollHeight - window.innerHeight;
-            let progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-            
-            // Map the traveler's position across the screen
-            let xPos = progress * window.innerWidth;
-            let yPos = 0;
-
-            // Phase 1: Running (0% - 25%)
-            if (progress < 0.25) {
-                traveler.innerText = '🏃‍♂️';
-                yPos = 0;
-                sea.style.opacity = 0;
-            } 
-            // Phase 2: Swimming in Sea (25% - 50%)
-            else if (progress < 0.50) {
-                traveler.innerText = '🏊‍♂️';
-                yPos = -20; // dip down
-                sea.style.opacity = 0.5;
-                sea.style.transform = 'translateY(0)';
-                plane.style.opacity = 0;
-                plane.style.transform = 'translateX(200px)';
-            } 
-            // Phase 3: Falling from Plane (50% - 75%)
-            else if (progress < 0.75) {
-                traveler.innerText = '🪂';
-                yPos = -(window.innerHeight * 0.4); // High up in the sky
-                sea.style.opacity = 0;
-                plane.style.opacity = 0.8;
-                plane.style.transform = `translateX(-${progress * 200}px)`; // Plane flies left
-                mountain.style.opacity = 0;
-                mountain.style.transform = 'translateY(100px)';
-            } 
-            // Phase 4: Landing on Mountain (75% - 100%)
-            else {
-                traveler.innerText = '🧍‍♂️';
-                // Calculate landing trajectory
-                let landingProgress = (progress - 0.75) / 0.25;
-                yPos = -(window.innerHeight * 0.4) * (1 - landingProgress) - 50; 
-                plane.style.opacity = 0;
-                mountain.style.opacity = 0.8;
-                mountain.style.transform = 'translateY(0)';
-            }
-
-            traveler.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            let value = window.scrollY;
+            sun.style.transform = `translate(-50%, ${value * 0.3}px)`;
+            layer3.style.transform = `translateY(${value * 0.15}px) scale(${1 + value * 0.0005})`;
+            layer2.style.transform = `translateY(${value * 0.1}px) scale(${1 + value * 0.001})`;
+            layer1.style.transform = `translateY(${value * 0.05}px) scale(${1 + value * 0.002})`;
         });
 
-        // --- 20 Day Countdown Timer ---
-        // Set the target date to exactly 20 days from the moment the user loads this script
-        let dropDate = localStorage.getItem('dropDate');
-        if (!dropDate) {
-            dropDate = new Date().getTime() + (20 * 24 * 60 * 60 * 1000);
-            localStorage.setItem('dropDate', dropDate);
-        }
-
-        const x = setInterval(function() {
-            let now = new Date().getTime();
-            let distance = dropDate - now;
-
-            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("mins").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("secs").innerHTML = seconds < 10 ? "0" + seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(x);
-                document.querySelector(".timer-grid").innerHTML = "DROPPED NOW!";
-            }
-        }, 1000);
-
-        // --- Fast UI Elements Animation ---
-        const observer = new IntersectionObserver((entries, obs) => {
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('show');
-                    obs.unobserve(entry.target); 
                 }
             });
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.scroll-anim').forEach(el => observer.observe(el));
 
-        // --- Birthday Animation ---
+        // Birthday Counter
         window.addEventListener('DOMContentLoaded', () => {
             const counterElement = document.getElementById('bd-counter');
-            let currentYear = new Date().getFullYear(); 
-            const endYear = 1998; 
+            let currentYear = new Date().getFullYear();
+            const endYear = 1998;
+            const duration = 1800;
+            const steps = currentYear - endYear;
+            const interval = duration / steps;
+
             const timer = setInterval(() => {
                 currentYear--;
                 counterElement.innerText = `8th of January ${currentYear}`;
                 if (currentYear <= endYear) {
                     clearInterval(timer);
-                    setTimeout(() => {
-                        counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
-                        counterElement.classList.add('birthday-pop');
-                    }, 100);
+                    counterElement.innerHTML = `🎉 8th of January 1998 - My Birthday! 🎉`;
+                    counterElement.classList.add('birthday-pop');
                 }
-            }, 2000 / (new Date().getFullYear() - endYear));
+            }, interval);
         });
+
+        // 20-Day Countdown (Change the target date as needed)
+        function startCountdown() {
+            // Set your target date here (example: 20 days from now)
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 20);   // Change this to your actual drop date
+
+            const countdownEl = {
+                days: document.getElementById('days'),
+                hours: document.getElementById('hours'),
+                minutes: document.getElementById('minutes'),
+                seconds: document.getElementById('seconds')
+            };
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    document.getElementById('countdown').innerHTML = `<strong style="color:#007bff;">It's Here! 🎉</strong>`;
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownEl.days.textContent = days.toString().padStart(2, '0');
+                countdownEl.hours.textContent = hours.toString().padStart(2, '0');
+                countdownEl.minutes.textContent = minutes.toString().padStart(2, '0');
+                countdownEl.seconds.textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        startCountdown();
     </script>
 </body>
 </html>
